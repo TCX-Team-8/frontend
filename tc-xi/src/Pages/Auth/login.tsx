@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { IoIosEye, IoIosEyeOff } from "react-icons/io";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 
 interface SignInData {
@@ -90,7 +89,9 @@ export default function Login() {
             onChange={handleInputChange}
             placeholder="Enter your email"
           />
-          {errors.email && <p className="text-red-500 text-sm  self-end">{errors.email}</p>}
+          {errors.email && (
+            <p className="text-red-500 text-sm  self-end">{errors.email}</p>
+          )}
         </label>
 
         {/* Password Input */}
@@ -112,7 +113,11 @@ export default function Login() {
               className="absolute right-2 top-2 text-sm"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <LuEyeClosed className="text-[#0C1B32] text-2xl text-center"/> : <LuEye className="text-[#0C1B32] text-2xl text-center"/>}
+              {showPassword ? (
+                <LuEyeClosed className="text-[#0C1B32] text-2xl text-center" />
+              ) : (
+                <LuEye className="text-[#0C1B32] text-2xl text-center" />
+              )}
             </button>
           </div>
           {errors.password && (
