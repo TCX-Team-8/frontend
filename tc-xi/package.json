@@ -10,10 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@mui/x-date-pickers": "^7.23.3",
     "@nextui-org/calendar": "^2.2.7",
     "@nextui-org/react": "^2.6.8",
     "dayjs": "^1.11.13",
+=======
+    "@types/react-calendar": "^3.9.0",
+>>>>>>> origin/djinane
     "react": "^18.3.1",
     "react-calendar": "^5.1.0",
     "react-dom": "^18.3.1",
