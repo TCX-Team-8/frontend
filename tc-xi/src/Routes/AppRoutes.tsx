@@ -27,7 +27,9 @@ export default function AppRoutes() {
           <Route path="/employee" element={<HomeLayout />}>
             <Route path="taches" element={<Liste_taches />} />
             <Route path="dashboard" element={<Dashboard />} />
+            
           </Route>
+
           <Route path="" element={<HomeLayout />}>
             <Route path="/hr/taches" element={<Liste_taches2 />} />
             <Route path="/hr/employee" element={<ListeEmployees2/>}/>
@@ -40,6 +42,7 @@ export default function AppRoutes() {
           </Route>
           <Route path="/login" element={<SignIn />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
+
         </Routes>
       </Suspense>
     </Router>
