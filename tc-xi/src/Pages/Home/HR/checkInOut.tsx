@@ -8,10 +8,9 @@ interface Employee {
   SSN: string;
   prenom: string;
   nom: string;
-  email: string;
   checkInTime: string; // Format: HH:mm
   checkOutTime: string; // Format: HH:mm
-  absences: number; // Total number of absences
+  retard: number; // Total number of retard
 }
 
 // Sample data for employees
@@ -19,10 +18,9 @@ const employeesData: Employee[] = Array.from({ length: 25 }, (_, index) => ({
   SSN: `SSN${index + 1}`,
   prenom: `Prenom${index + 1}`,
   nom: `Nom${index + 1}`,
-  email: `employee${index + 1}@company.com`,
   checkInTime: `${8 + (index % 3)}:00`, // Randomized check-in times
   checkOutTime: `${16 + (index % 3)}:00`, // Randomized check-out times
-  absences: Math.floor(Math.random() * 5), // Random absences
+  retard: Math.floor(Math.random() * 5), // Random retard
 }));
 
 const ListeEmployeesWithAttendance = () => {
@@ -51,10 +49,9 @@ const ListeEmployeesWithAttendance = () => {
       <div className="w-16">SSN</div>
       <div className="w-24">First Name</div>
       <div className="w-24">Last Name</div>
-      <div className="w-48">Email</div>
       <div className="w-24">Check-In</div>
       <div className="w-24">Check-Out</div>
-      <div className="w-16">Absences</div>
+      <div className="w-16">retard</div>
     </div>
   );
 
@@ -63,10 +60,9 @@ const ListeEmployeesWithAttendance = () => {
       <div className="w-16">{employee.SSN}</div>
       <div className="w-24">{employee.prenom}</div>
       <div className="w-24">{employee.nom}</div>
-      <div className="w-48 truncate">{employee.email}</div>
       <div className="w-24">{employee.checkInTime}</div>
       <div className="w-24">{employee.checkOutTime}</div>
-      <div className="w-16">{employee.absences}</div>
+      <div className="w-16">{employee.retard}</div>
     </div>
   );
 

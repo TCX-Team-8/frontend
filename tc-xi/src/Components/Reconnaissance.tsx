@@ -73,8 +73,8 @@ export default function Reconnaissance() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 text-black">
-      <div className="w-full max-w-lg p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
+    <div className="w-[80vw] h-[100vh] flex flex-col place-content-center place-items-center items-center justify-center p-4 text-black">
+      <div className="w-full p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
         <h1 className="text-xl font-bold mb-4 text-center">Reconnaissance faciale</h1>
         
         <label className="text-sm mb-2 block">Sélectionnez vos horaires</label>
@@ -83,7 +83,7 @@ export default function Reconnaissance() {
           <option value="check-out">Check - out</option>
         </select>
 
-        <div className="flex flex-col items-center mb-4 gap-10">
+        <div className="w-full flex flex-col place-content-center place-items-center  mb-4 gap-10">
           {/* Import photo option */}
           {!isPhotoImported && !showCam && (
             <>

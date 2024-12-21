@@ -33,7 +33,7 @@ const WebcamCapture: React.FC<WebcamCaptureProps> = ({ onCapture }) => {
         audio={false}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
-        className="webcam"
+        className="w-full h-80"
       />
       <button
         onClick={capture}

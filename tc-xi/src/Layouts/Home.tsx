@@ -1,6 +1,6 @@
 import { Outlet, Navigate } from "react-router-dom";
 import Sidebar from "../Components/Sider-bar";
-import { IoMdNotificationsOutline } from "react-icons/io";
+import { IoMdCall, IoMdNotificationsOutline, IoMdPhonePortrait } from "react-icons/io";
 import { IoPersonOutline, IoSwapHorizontalOutline } from "react-icons/io5";
 import { FiLogOut } from "react-icons/fi";
 import { useState } from "react";
@@ -14,6 +14,7 @@ export default function HomeLayout() {
 
   const [openProfile, setOpenProfile] = useState(false);
   const [openNotification, setOpenNotification] = useState(false); // If you plan to use this
+  const [openCall, setOpenCall] = useState(false); // If you plan to use this
   const NotficationCard=()=>{
     return(
       <div className="text-black w-full gap-2 p-2 flex place-content-start place-items-center border-b border-b-gray-300 h-16">
@@ -36,19 +37,31 @@ export default function HomeLayout() {
           <Sidebar />
           <div className="max-h-screen w-full flex-grow flex flex-col overflow-hidden max-md:w-screen max-md:overflow-y-visible max-md:h-auto max-md:place-items-center ">
             <div className="hidden sm:flex w-full justify-end h-24 p-4">
-              <div className="w-32 h-full bg-[#edf1f4] rounded-3xl p-2 flex flex-row items-center justify-end gap-3">
+              <div className="w-44 h-full bg-[#edf1f4] rounded-3xl p-2 flex flex-row items-center justify-end gap-3">
+              <div
+                 className="w-12 h-12 rounded-full flex justify-center items-center"
+                onClick={() => {setOpenNotification(false);setOpenProfile(false);setOpenCall((prev) => !prev)}}
+                >
+                  <IoMdCall className="text-2xl text-PrimaryBlue" />
+                </div>
                 <div
                  className="w-12 h-12 rounded-full flex justify-center items-center"
-                onClick={() => {setOpenProfile(false);setOpenNotification((prev) => !prev)}}
+                onClick={() => {setOpenProfile(false);setOpenCall(false);setOpenNotification((prev) => !prev)}}
                 >
                   <IoMdNotificationsOutline className="text-2xl text-PrimaryBlue" />
                 </div>
                 <div
                   className="w-12 h-12 rounded-full flex justify-center items-center bg-ThirdBlue shadow-xl cursor-pointer"
-                  onClick={() => {setOpenNotification(false);setOpenProfile((prev) => !prev)}}
+                  onClick={() => {setOpenNotification(false);setOpenCall(false);setOpenProfile((prev) => !prev)}}
                 >
                   <IoPersonOutline className="text-2xl text-PrimaryBlue" />
                 </div>
+                {openCall && (
+                  <div className="text-black w-64 absolute top-24 right-5 z-50 bg-[#edf1f4] rounded-xl h-fit flex  place-content-between place-items-center p-5">
+                   <p className="text-sm font-extralight">Call ** *** *** **</p>
+                   <IoMdCall className="w-5 h-5"/>
+                  </div>
+                )}
                 {openProfile && (
                   <div className="text-black w-64 absolute top-24 right-5 z-50 bg-[#edf1f4] rounded-xl h-fit flex flex-col">
                     <h2 className="w-full p-2 border-b border-gray-300">Hi, Tarek 👋</h2>
@@ -70,7 +83,10 @@ export default function HomeLayout() {
                   )}
               </div>
             </div>
+            <div className="w-full flex place-content-center place-items-start h-full overflow-y-scroll">
+
             <Outlet />
+            </div>
           </div>
         </main>
       )}

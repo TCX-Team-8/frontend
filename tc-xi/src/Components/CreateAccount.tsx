@@ -87,12 +87,12 @@ function AccountForm() {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg text-black">
+    <div className="w-[60vw] mx-auto p-4 bg-white shadow-md rounded-lg text-black">
       <h2 className="text-2xl font-bold mb-4 text-center">Create Account</h2>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Nom</label>
+            <label className="block text-sm font-medium text-gray-700 text-start">Nom</label>
             <input
               type="text"
               name="nom"
@@ -103,7 +103,7 @@ function AccountForm() {
             {errors.nom && <p className="text-red-500 text-sm">{errors.nom}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Prénom</label>
+            <label className="block text-sm font-medium text-gray-700 text-start">Prénom</label>
             <input
               type="text"
               name="prenom"
@@ -116,7 +116,7 @@ function AccountForm() {
         </div>
         
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <label className="block text-sm font-medium text-gray-700 text-start">Email</label>
           <input
             type="email"
             name="email"
@@ -128,7 +128,7 @@ function AccountForm() {
         </div>
 
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">Téléphone</label>
+          <label className="block text-sm font-medium text-gray-700 text-start">Téléphone</label>
           <input
             type="tel"
             name="tel"
@@ -140,7 +140,7 @@ function AccountForm() {
         </div>
 
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">NSS</label>
+          <label className="block text-sm font-medium text-gray-700 text-start">NSS</label>
           <input
             type="text"
             name="nss"
@@ -152,7 +152,7 @@ function AccountForm() {
         </div>
 
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">Adresse</label>
+          <label className="block text-sm font-medium text-gray-700 text-start">Adresse</label>
           <input
             type="text"
             name="adresse"
@@ -164,7 +164,7 @@ function AccountForm() {
         </div>
 
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">Date de naissance</label>
+          <label className="block text-sm font-medium text-gray-700 text-start">Date de naissance</label>
           <input
             type="date"
             name="date_naiss"
@@ -176,7 +176,7 @@ function AccountForm() {
         </div>
 
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">Département</label>
+          <label className="block text-sm font-medium text-gray-700 text-start">Département</label>
           <select
             name="departement"
             value={formData.departement}
@@ -193,7 +193,7 @@ function AccountForm() {
         </div>
 
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">Photo</label>
+          <label className="block text-sm font-medium text-gray-700 text-start">Photo</label>
           <input
             type="file"
             name="photo"
@@ -204,7 +204,7 @@ function AccountForm() {
         </div>
 
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">Mot de passe</label>
+          <label className="block text-sm font-medium text-gray-700 text-start">Mot de passe</label>
           <input
             type="password"
             name="mdp"
@@ -216,7 +216,7 @@ function AccountForm() {
         </div>
 
         <div className="mt-4">
-          <label className="block text-sm font-medium text-gray-700">Matricule</label>
+          <label className="block text-sm font-medium text-gray-700 text-start">Matricule</label>
           <input
             type="text"
             name="matricule"

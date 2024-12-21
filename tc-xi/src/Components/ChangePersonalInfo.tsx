@@ -77,7 +77,7 @@ const ChangePersonalInfo: React.FC = () => {
   };
 
   return (
-    <div className="p-4 w-full">
+    <div className="p-4 w-full h-full">
       <div className="font-semibold text-xl text-center mb-4 ml-0">Informations personnelles</div>
       <div className="flex flex-col items-center gap-4 ">
         {Object.keys(personalInfo).map((field) => (
