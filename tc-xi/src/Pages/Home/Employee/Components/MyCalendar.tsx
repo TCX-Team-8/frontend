@@ -41,7 +41,7 @@ const MyCalendar: React.FC = () => {
   };
 
   return (
-    <div className="p-4 place-content-center">
+    <div className="p-4 place-content-center text-black">
       <h1 className="text-xl font-bold mb-4">Attendance Calendar</h1>
 
       {/* Calendar component */}

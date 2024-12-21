@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-export default function NotFound() {
-  return <h1>404</h1>;
-=======
+
 import React from 'react'
 import { TfiFaceSad } from "react-icons/tfi";
 import { Link } from 'react-router-dom';
@@ -19,5 +16,4 @@ export default function NotFound() {
         </Link>
     </div>
   )
->>>>>>> origin/djinane
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Absences from "./Components/absences-month";
-import Retard_bar from "./Components/retard-week";
+import Absences from "./Components/Sabsences-month";
+import Retard_bar from "./Components/Sretard-week";
 import { IoIosWarning } from "react-icons/io";
 import Overview from "./Components/General-overview";
 import MyCalendar from "./Components/MyCalendar";
@@ -17,7 +17,7 @@ interface Data {
   prediction: number;
   warnings: string[];
 }
-export default function Dashboard() {
+export default function Specific_Dashboard() {
   const [data, setData] = useState<Data>({
     retards: {
       totalHours: 15,
@@ -64,16 +64,18 @@ export default function Dashboard() {
   }, []);
 
   const COLORS = [
-    {color:"#0C1B32",name:"A"},
-    {color:"#0077b6",name:"B"},
-    {color:"#caf0f8",name:"C"},
-    {color:"#00b4d8",name:"D"} ];
-    //SecondaryBlue: "#0077b6",
-    //    ThirdBlue: "#caf0f8",
-    //    FourthBlue:'#00b4d8',
+    { color: "#0C1B32", name: "A" },
+    { color: "#0077b6", name: "B" },
+    { color: "#caf0f8", name: "C" },
+    { color: "#00b4d8", name: "D" },
+  ];
+  //SecondaryBlue: "#0077b6",
+  //    ThirdBlue: "#caf0f8",
+  //    FourthBlue:'#00b4d8',
 
   return (
-    <section className="w-full overflow-x-hidden p-2 max-h-screen overflow-y-scroll flex flex-col place-content-start place-items-center">
+    <section className="w-full pb-24 overflow-x-hidden p-2 max-h-screen overflow-y-scroll flex flex-col place-content-start place-items-center">
+      <IoIosWarning className="p-2 text-red-500 w-16 h-16 bg-red-100 rounded-full shadow-2xl fixed bottom-5 right-5 transition-all hover:scale-105 max-md:bottom-24" />
       <section className="text-black w-full p-3 flex place-content-center place-items-center gap-5">
         <div className="bg-ThirdBlue flex-grow w-full h-44 shadow-lg  rounded-xl p-3 flex flex-col place-items-start">
           <h1 className="text-sm font-thin">Les retards</h1>
@@ -103,33 +105,37 @@ export default function Dashboard() {
           ))}
         </div>
       </section>
-      <div className="px-3 w-full flex gap-5 max-md:pb-24">
+      <div className="px-3 w-full flex gap-5">
         <div className="pt-5 flex-grow w-screen bg-white rounded-2xl flex flex-col px-5">
-            <div className="h-96">
-                              <Retard_bar />
-                              </div>
-            <h1 className="text-[#0C1B32] font-semibold border-b-8 border-b-[#B5C5DF] pb-5">
-              Les retard per week
-            </h1>
-          <div className="w-full flex  pt-4 max-lg:flex-col-reverse max-md:place-items-center max-lg:place-items-center" >
-            <MyCalendar/>
+          <div className="h-96">
+          <Retard_bar />
+          </div>
+          <h1 className="text-[#0C1B32] font-semibold border-b-8 border-b-[#B5C5DF] pb-5">
+            Les retard per week
+          </h1>
+          <div className="w-full flex pt-4 max-md:flex-col-reverse max-md:place-items-center">
+            <MyCalendar />
             <div className="w-full">
-            <Absences />
-            <h1 className="text-[#0C1B32] font-semibold border-b-2 border-b-gray-300 pb-5">
-              Number of absences per month
-            </h1>
+              <Absences />
+              <h1 className="text-[#0C1B32] font-semibold border-b-2 border-b-gray-300 pb-5">
+                Number of absences per month
+              </h1>
             </div>
           </div>
         </div>
         <div className="max-xl:hidden overflow-x-visible bg-white w-[300px] rounded-3xl h-screen">
-         <Overview/>
-         <ul>
-          {COLORS.map((item,index)=>(
-            <li key={index} style={{backgroundColor: item.color}}>
-              <div className={`w-full rounded-full flex place-content-center place-items-center py-1 text-white font-semibold`}>{item.name}</div>
-            </li>
-          ))}
-         </ul>
+          <Overview />
+          <ul>
+            {COLORS.map((item, index) => (
+              <li key={index} style={{ backgroundColor: item.color }}>
+                <div
+                  className={`w-full rounded-full flex place-content-center place-items-center py-1 text-white font-semibold`}
+                >
+                  {item.name}
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

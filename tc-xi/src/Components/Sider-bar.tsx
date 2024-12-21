@@ -1,74 +1,74 @@
 import { useState } from "react";
 import '../index.css'
-import { useParams } from "react-router-dom";
-import Navigation from "./side-navigation";
-import User from "./User";
 import { TiDocumentText } from "react-icons/ti";
 import { ImStatsBars } from "react-icons/im";
 import { CiCalendarDate } from "react-icons/ci";
 import { CgDetailsMore } from "react-icons/cg";
+import { IoDocumentText,  IoStatsChart } from "react-icons/io5";
+import { FiLogOut } from "react-icons/fi";
+import { MdFormatAlignLeft, MdOutlineNotifications, MdOutlinePrivacyTip } from "react-icons/md";
 
 export default function SideBar(){
-    useParams()
-    const [selected,setselected]=useState("dashboard")
+  const path = window.location.pathname.toLowerCase();
+  //const special_path = ["/rh"];
+  //const isSpecial = special_path.includes(path);
+    const [selected,setselected]=useState("Tableau de Bord")
     const Services=[
+      {
+        title: "Notification",
+        icon:  <MdOutlineNotifications className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />,
+    },
         {
             title: "Taches",
-            icon: "",
+            icon:  <IoDocumentText className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />,
         },
         {
             title: "Tableau de Bord",
-            icon: "",
+            icon:  <IoStatsChart className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />,
         },
         {
             title: "Demande de conge",
-            icon: "",
+            icon:  <MdFormatAlignLeft className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />,
         },
         {
             title: "Information personnel",
-            icon: "",
+            icon:  <MdOutlinePrivacyTip className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />,
         },
     ]
     return(
         <>
-      <nav className="max-md:hidden w-72 h-screen bg-[#0C1B32] flex flex-col gap-5 place-content-between place-items-center">
-        <User Fname={"Imen"} Lname={"BHD"}/>
-       <ul className="w-full flex flex-col flex-grow text-white place-content-center place-items-center">
-        {Services.map((item,index)=>(
-            <Navigation key={index} title={item.title} icon={item.icon} params={selected} setparams={setselected} />
-        ))}
-       </ul>
-       <button className={`w-full h-20  flex place-content-start place-items-center px-2 `}>
-         Se deconnecter
-       </button>
-      </nav>
+      <div className="max-md:hidden  h-screen w-[270px] max-lg:w-36 bg-PrimaryBlue flex flex-col gap-8  max-md:place-items-center place-items-start pt-4">
+        <div className="flex flex-col h-full w-full justify-between">
+          <ul className="w-full flex flex-col gap-5 py-4">
+           {
+            Services.map((item,index)=>(
+              <li
+              key={index}
+              onClick={()=>setselected(item.title)}
+              className={`cursor-pointer md:px-2 flex py-2 w-full transition-all ${
+                selected.toLocaleLowerCase()==item.title.toLocaleLowerCase() ? "border-r-4 border-r-ThirdBlue" : "opacity-50"
+              } gap-5 place-content-start max-xl:place-content-center place-items-center`}
+            >
+             {item.icon}
+              <p className="text-base max-xl:hidden">{item.title}</p>
+            </li>
+            ))
+           }
+          </ul>
+          <div className="cursor-pointer md:px-2 flex py-2 w-full opacity-50 gap-5 place-content-start max-xl:place-content-center place-items-center mb-10">
+            <FiLogOut className="w-8 h-8 xl:w-6 font-bold text-white" />
+            <p className="text-base max-xl:hidden">Log out</p>
+          </div>
+        </div>
+      </div>
 
-      <div className="w-screen sm:hidden h-20 fixed z-10 bottom-2 p-2 px-5 flex place-content-center place-items-center">
-        <ul className="w-full h-full bg-[#0C1B32] rounded-2xl flex place-items-center place-content-around">
-          <li
-            className="cursor-pointer"
-            
-          >
-            <TiDocumentText className="w-10 h-10 font-bold text-white" />
-          </li>
-          <li
-            className="cursor-pointer"
-            
-          >
-            <ImStatsBars className="w-10 h-10 font-bold text-white" />
-          </li>
-          <li
-            className="cursor-pointer"
-            
-          >
-            <CiCalendarDate className="w-10 h-10 font-bold text-white" />
-          </li>
-          <li
-            className="cursor-pointer"
-            
-          >
-            <CgDetailsMore className="w-10 h-10 font-bold text-white" />
-          </li>
+      <div className="max-md:w-screen md:hidden h-20 fixed z-10 bottom-2 p-2 px-5 flex place-content-center place-items-center">
+        <ul className="w-full h-full bg-PrimaryBlue rounded-2xl flex place-items-center place-content-around">
+         {Services.map((item,index)=>(
+          <div key={index}>
+          {item.icon}
+          </div>
+         ))}
         </ul>
       </div>
       </>

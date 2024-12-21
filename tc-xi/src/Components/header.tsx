@@ -29,8 +29,8 @@ const Header: React.FC = () => {
   const lastThreeNotifications = notifications.slice(-3);
 
   return (
-    <div>
-      <div className="bg-[#0C1B32] w-full p-5 flex flex-row gap-5 place-items-center relative">
+    <div className="">
+      <div className="bg-[#0C1B32] p-5 flex gap-5 place-items-center relative">
         <IoMdNotificationsOutline
           onClick={toggleDropdown}
           className="w-10 h-10 ml-auto text-white cursor-pointer"

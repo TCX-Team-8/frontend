@@ -44,9 +44,9 @@ export default function Retard_bar() {
     <ResponsiveContainer width="100%" height="100%">
 
     <BarChart
-      className=" pt-5 "
+      className="pt-5 "
       width={845}
-      height={400}
+      height={600}
       data={data}
       margin={{
         top: 5,

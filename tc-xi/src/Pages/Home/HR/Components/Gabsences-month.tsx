@@ -32,7 +32,7 @@ export default function Absences() {
 
   return (
 
- <ResponsiveContainer height="90%" width="100%">
+ <ResponsiveContainer height="100%" width="100%">
 
     <AreaChart
     className=""

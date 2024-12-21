@@ -3,8 +3,7 @@ import { IoIosDoneAll, IoIosSearch, IoIosTime } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 import { HiX } from "react-icons/hi";
-import Calendar from "react-calendar";
-import Calendar_employee from "./Components/Calendar";
+
 
 // Define a type for Tache
 interface Tache {
@@ -13,6 +12,7 @@ interface Tache {
   dateLimit: string;
   priority: string;
   status: boolean;
+  assigned_to:string;
 }
 interface FilterOptions {
   tache: boolean;
@@ -20,6 +20,7 @@ interface FilterOptions {
   datelimit: boolean;
   priority: boolean;
   status: boolean;
+  assigned_to:boolean;
 }
 
 // Sample data for Taches
@@ -39,6 +40,7 @@ interface TacheTableProps {
     datelimit: boolean;
     priority: boolean;
     status: boolean;
+    assigned_to:boolean;
   };
   toggleFilterOption: (option: keyof typeof FilterOptions) => void;
 }
@@ -54,7 +56,8 @@ interface FilterOptionsProps {
     description: boolean;
     datelimit: boolean;
     priority: boolean;
-    status: true;
+    status: boolean;
+    assigned_to:boolean;
   };
   toggleFilterOption: (option: keyof typeof FilterOptions) => void;
 }
@@ -70,23 +73,15 @@ interface PaginationProps {
   setPage: (page: number) => void;
 }
 
-const Liste_taches = () => {
-  const [TachesData,setTache]=useState(Array.from({ length: 25 }, () => ({
+const Liste_taches2 = () => {
+  const TachesData: Tache[] = Array.from({ length: 25 }, () => ({
     tache: "text",
     description: "text",
     dateLimit: "text",
     priority: "text",
     status: true,
-  }))
-)
-
-const toggleTaskStatus = (index: number) => {
-  setTache((prev) => 
-    prev.map((tache, i) => 
-      i === index ? { ...tache, status: !tache.status } : tache
-    )
-  );
-};
+    assigned_to:"text"
+  }));
 
   const SearchBar: React.FC<SearchBarProps> = ({
     searchTerm,
@@ -137,10 +132,11 @@ const toggleTaskStatus = (index: number) => {
   const TableHeader: React.FC<TableHeaderProps> = () => (
     <div className="w-full flex gap-4 font-bold border-b pb-2 text-gray-700">
       <h2 className="w-16">Tache</h2>
-      <h2 className="w-24">Description</h2>
+      <h2 className="w-40">Description</h2>
       <h2 className="w-24 truncate">Date limit</h2>
       <h2 className="w-48">Priority</h2>
       <h2 className="w-24">Status</h2>
+      <h2 className="w-24 ">Assigned to</h2>
     </div>
   );
 
@@ -168,18 +164,18 @@ const toggleTaskStatus = (index: number) => {
       ))}
     </div>
   );
-  
 
   const TacheRow: React.FC<TacheRowProps> = ({ Tache, index }) => (
     <div
     className={`w-full flex gap-4 items-center py-2 text-gray-800 bg-ThirdBlue rounded-lg`}
     >
-      <h2 className="text-PrimaryBlue font-semibold w-16">{Tache.tache}</h2>
-      <h2 className="text-PrimaryBlue font-semibold w-24">{Tache.description}</h2>
-      <h2 className="text-PrimaryBlue font-semibold w-24 truncate">{Tache.dateLimit}</h2>
-      <h2 className="text-PrimaryBlue font-semibold w-48">{Tache.priority}</h2>
-      {Tache.status ? <IoIosDoneAll className="bg-green-500 p-2 rounded-lg h-8 w-8" onClick={()=>toggleTaskStatus(index)}/>:<IoIosTime className="bg-red-500 p-2 rounded-lg w-8 h-8" onClick={()=>toggleTaskStatus(index)}/>} 
-      </div>
+      <h2 className="w-16">{Tache.tache}</h2>
+      <h2 className="w-40">{Tache.description}</h2>
+      <h2 className="w-24 truncate">{Tache.dateLimit}</h2>
+      <h2 className="w-48">{Tache.priority}</h2>
+      {Tache.status ? <IoIosDoneAll className="bg-green-500 p-2 rounded-lg h-8 w-8"/>:<IoIosTime className="bg-red-500 p-2 rounded-lg w-8 h-8"/>} 
+      <h2 className="w-24">{Tache.assigned_to}</h2>
+     </div>
   );
 
   const Pagination: React.FC<PaginationProps> = ({
@@ -187,7 +183,7 @@ const toggleTaskStatus = (index: number) => {
     page,
     setPage,
   }) => (
-    <div className="flex justify-center mt-4 gap-2 text-PrimaryBlue font-bold">
+    <div className="flex justify-center mt-4 gap-2 text-black">
       <button
         disabled={page === 1}
         onClick={() => setPage(page - 1)}
@@ -217,6 +213,7 @@ const toggleTaskStatus = (index: number) => {
     datelimit: false,
     priority: false,
     status: false,
+    assigned_to:false
   });
 
   const TachesPerPage = 20;
@@ -239,8 +236,7 @@ const toggleTaskStatus = (index: number) => {
   };
 
   return (
-    <div className="w-full flex max-h-screen overflow-y-scroll flex-col place-content-start place-items-center p-2  gap-2 flex-grow max-md:pl-0 max-md:pb-24 ">
-      <Calendar_employee/>
+    <div className=" flex max-h-screen overflow-y-scroll flex-col place-content-start place-items-center p-2 gap-2 flex-grow max-md:pl-0 max-md:pb-24 ">
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <button
         className="pl-3 self-start flex items-center gap-2 text-black"
@@ -262,4 +258,4 @@ const toggleTaskStatus = (index: number) => {
   );
 };
 
-export default Liste_taches;
+export default Liste_taches2;
