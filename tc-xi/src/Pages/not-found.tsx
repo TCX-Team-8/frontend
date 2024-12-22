@@ -5,7 +5,7 @@ import '../../tailwind.config';
 
 export default function NotFound() {
   return (
-    <div className='w-screen h-screen flex justify-center items-center flex-col gap-[10px] text-gray-100'>
+    <div className='text-black w-screen h-screen flex justify-center items-center flex-col gap-[10px] '>
         <TfiFaceSad className='w-20 h-20 font-bold '/>
         <h1 className='text-6xl font-semibold'>404</h1>
         <p className='text-xl font-semibold'> Page not found</p>
