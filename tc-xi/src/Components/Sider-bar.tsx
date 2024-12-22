@@ -131,10 +131,10 @@ export default function SideBar() {
                     item.title.toLocaleLowerCase()
                       ? "border-r-4 border-r-ThirdBlue"
                       : "opacity-50"
-                  } gap-5 place-content-start max-xl:place-content-center place-items-center`}
+                  } gap-5 place-content-start max-lg:place-content-center place-items-center`}
                 >
                   {item.icon}
-                  <p className="text-base max-xl:hidden">{item.title}</p>
+                  <p className="text-base max-lg:hidden">{item.title}</p>
                 </li>
               ))}
             {userType.toLocaleLowerCase() == "employee" &&
@@ -147,10 +147,10 @@ export default function SideBar() {
                     item.title.toLocaleLowerCase()
                       ? "border-r-4 border-r-ThirdBlue"
                       : "opacity-50"
-                  } gap-5 place-content-start max-xl:place-content-center place-items-center`}
+                  } gap-5 place-content-start max-lg:place-content-center place-items-center`}
                 >
                   {item.icon}
-                  <p className="text-base max-xl:hidden">{item.title}</p>
+                  <p className="text-base max-lg:hidden">{item.title}</p>
                 </li>
               ))}
             {userType.toLocaleLowerCase() == "admin" &&
@@ -163,16 +163,16 @@ export default function SideBar() {
                     item.title.toLocaleLowerCase()
                       ? "border-r-4 border-r-ThirdBlue"
                       : "opacity-50"
-                  } gap-5 place-content-start max-xl:place-content-center place-items-center`}
+                  } gap-5 place-content-start max-lg:place-content-center place-items-center`}
                 >
                   {item.icon}
-                  <p className="text-base max-xl:hidden">{item.title}</p>
+                  <p className="text-base max-lg:hidden">{item.title}</p>
                 </li>
               ))}
           </ul>
-          <div className="cursor-pointer md:px-2 flex py-2 w-full opacity-50 gap-5 place-content-start max-xl:place-content-center place-items-center mb-10">
+          <div className="cursor-pointer md:px-2 flex py-2 w-full opacity-50 gap-5 place-content-start max-lg:place-content-center place-items-center mb-10">
             <FiLogOut className="w-8 h-8 xl:w-6 font-bold text-white" />
-            <p className="text-base max-xl:hidden">Log out</p>
+            <p className="text-base max-lg:hidden">Log out</p>
           </div>
         </div>
       </div>
