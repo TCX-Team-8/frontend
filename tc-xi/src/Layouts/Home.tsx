@@ -7,10 +7,7 @@ import { useState } from "react";
 
 export default function HomeLayout() {
   const isAuthenticated = false;
-  // const location = useLocation();
-  // const specialPaths = ["/student", "/doctor", "/worker", "/director"];
-  // const currentPath = location.pathname.toLowerCase();
-  // const isSpecialPath = specialPaths.includes(currentPath);
+ 
 
   const [openProfile, setOpenProfile] = useState(false);
   const [openNotification, setOpenNotification] = useState(false); // If you plan to use this
@@ -31,7 +28,7 @@ export default function HomeLayout() {
         <Navigate to="/login" />
       ) : (
         <main
-          className={`flex w-screen place-content-between'
+          className={`flex w-screen h-screen place-content-between'
           // { isSpecialPath ? "place-content-center" : "place-content-end" }`
         }
         >

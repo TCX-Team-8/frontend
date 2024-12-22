@@ -21,28 +21,28 @@ export default function SideBar() {
   const Services_emp = [
     {
       title: "Notification",
-      path: "/notification",
+      path: "notification",
       icon: (
         <MdOutlineNotifications className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
     {
       title: "Taches",
-      path: "/taches",
+      path: "taches",
       icon: (
         <IoDocumentText className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
     {
       title: "Tableau de Bord",
-      path: "/dashboard",
+      path: "dashboard",
       icon: (
         <IoStatsChart className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
     {
       title: "Information personnel",
-      path: "/change-info",
+      path: "change-info",
       icon: (
         <MdOutlinePrivacyTip className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
@@ -98,7 +98,7 @@ export default function SideBar() {
    
     {
       title: "Check In/Out",
-      path: "Check-in-out",
+      path: "recognition",
       icon: (
         <TbFaceId className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
@@ -139,7 +139,7 @@ export default function SideBar() {
               Services_emp.map((item, index) => (
                 <li
                   key={index}
-                  onClick={() => {setselected(item.title)  ;navigate(item.path)}}
+                  onClick={() => {setselected(item.title)  ;navigate("/"+userType+"/"+userSSn+"/"+item.path)}}
                   className={`cursor-pointer md:px-2 flex py-2 w-full transition-all ${
                     selected.toLocaleLowerCase() ==
                     item.title.toLocaleLowerCase()
@@ -155,7 +155,7 @@ export default function SideBar() {
               Services_admin.map((item, index) => (
                 <li
                   key={index}
-                  onClick={() => {setselected(item.title)  ;navigate(item.path)}}
+                  onClick={() => {setselected(item.title)  ;navigate("/"+userType+"/"+userSSn+"/"+item.path)}}
                   className={`cursor-pointer md:px-2 flex py-2 w-full transition-all ${
                     selected.toLocaleLowerCase() ==
                     item.title.toLocaleLowerCase()
@@ -168,7 +168,7 @@ export default function SideBar() {
                 </li>
               ))}
           </ul>
-          <div className="cursor-pointer md:px-2 flex py-2 w-full opacity-50 gap-5 place-content-start max-lg:place-content-center place-items-center mb-10">
+          <div className="cursor-pointer  md:px-2 flex py-2 w-full opacity-50 gap-5 place-content-start max-lg:place-content-center place-items-center mb-10">
             <FiLogOut className="w-8 h-8 xl:w-6 font-bold text-white" />
             <p className="text-base max-lg:hidden">Log out</p>
           </div>
@@ -179,15 +179,15 @@ export default function SideBar() {
         <ul className="w-full h-full bg-PrimaryBlue rounded-2xl flex place-items-center place-content-around">
           {userType.toLocaleLowerCase() == "hr" &&
             Services_rh.map((item, index) => (
-              <div onClick={() => {setselected(item.title)  ;navigate(item.path)}} key={index}>{item.icon}</div>
+              <div onClick={() => {setselected(item.title)  ;navigate("/"+userType+"/"+userSSn+"/"+item.path)}} key={index}>{item.icon}</div>
             ))}
           {userType.toLocaleLowerCase() == "employee" &&
             Services_emp.map((item, index) => (
-              <div onClick={() => {setselected(item.title)  ;navigate(item.path)}} key={index}>{item.icon}</div>
+              <div onClick={() => {setselected(item.title)  ;navigate("/"+userType+"/"+userSSn+"/"+item.path)}} key={index}>{item.icon}</div>
             ))}
           {userType.toLocaleLowerCase() == "admin" &&
             Services_admin.map((item, index) => (
-              <div onClick={() => {setselected(item.title)  ;navigate(item.path)}} key={index}>{item.icon}</div>
+              <div onClick={() => {setselected(item.title)  ;navigate("/"+userType+"/"+userSSn+"/"+item.path)}} key={index}>{item.icon}</div>
             ))}
         </ul>
       </div>
