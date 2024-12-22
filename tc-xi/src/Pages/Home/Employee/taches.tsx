@@ -1,12 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoIosDoneAll, IoIosSearch, IoIosTime } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 import { HiX } from "react-icons/hi";
-import Calendar from "react-calendar";
 import Calendar_employee from "./Components/Calendar";
 
-// Define a type for Tache
 interface Tache {
   tache: string;
   description: string;
@@ -14,6 +12,7 @@ interface Tache {
   priority: string;
   status: boolean;
 }
+
 interface FilterOptions {
   tache: boolean;
   description: boolean;
@@ -21,8 +20,6 @@ interface FilterOptions {
   priority: boolean;
   status: boolean;
 }
-
-// Sample data for Taches
 
 interface SearchBarProps {
   searchTerm: string;
@@ -71,22 +68,46 @@ interface PaginationProps {
 }
 
 const Liste_taches = () => {
-  const [TachesData,setTache]=useState(Array.from({ length: 25 }, () => ({
+  const [TachesData, setTache] = useState<Tache[]>(Array.from({ length: 10 }, () => ({
     tache: "text",
     description: "text",
     dateLimit: "text",
     priority: "text",
     status: true,
-  }))
-)
+  })));
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+    tache: false,
+    description: false,
+    datelimit: false,
+    priority: false,
+    status: false,
+  });
 
-const toggleTaskStatus = (index: number) => {
-  setTache((prev) => 
-    prev.map((tache, i) => 
-      i === index ? { ...tache, status: !tache.status } : tache
-    )
-  );
-};
+  useEffect(() => {
+    // Fetch data from your API
+    const fetchTaches = async () => {
+      try {
+        const response = await fetch('https://api.example.com/taches'); // Replace with your API URL
+        const data = await response.json();
+        setTache(data); // Update the state with the fetched data
+      } catch (error) {
+        console.error("Error fetching taches:", error);
+      }
+    };
+
+    fetchTaches();
+  }, []);
+
+  const toggleTaskStatus = (index: number) => {
+    setTache((prev) =>
+      prev.map((tache, i) =>
+        i === index ? { ...tache, status: !tache.status } : tache
+      )
+    );
+  };
 
   const SearchBar: React.FC<SearchBarProps> = ({
     searchTerm,
@@ -168,18 +189,25 @@ const toggleTaskStatus = (index: number) => {
       ))}
     </div>
   );
-  
 
   const TacheRow: React.FC<TacheRowProps> = ({ Tache, index }) => (
-    <div
-    className={`w-full flex gap-4 items-center py-2 text-gray-800 bg-ThirdBlue rounded-lg`}
-    >
+    <div className={`w-full flex gap-4 items-center py-2 text-gray-800 bg-ThirdBlue rounded-lg`}>
       <h2 className="text-PrimaryBlue font-semibold w-16">{Tache.tache}</h2>
       <h2 className="text-PrimaryBlue font-semibold w-24">{Tache.description}</h2>
       <h2 className="text-PrimaryBlue font-semibold w-24 truncate">{Tache.dateLimit}</h2>
       <h2 className="text-PrimaryBlue font-semibold w-48">{Tache.priority}</h2>
-      {Tache.status ? <IoIosDoneAll className="bg-green-500 p-2 rounded-lg h-8 w-8" onClick={()=>toggleTaskStatus(index)}/>:<IoIosTime className="bg-red-500 p-2 rounded-lg w-8 h-8" onClick={()=>toggleTaskStatus(index)}/>} 
-      </div>
+      {Tache.status ? (
+        <IoIosDoneAll
+          className="bg-green-500 p-2 rounded-lg h-8 w-8"
+          onClick={() => toggleTaskStatus(index)}
+        />
+      ) : (
+        <IoIosTime
+          className="bg-red-500 p-2 rounded-lg w-8 h-8"
+          onClick={() => toggleTaskStatus(index)}
+        />
+      )}
+    </div>
   );
 
   const Pagination: React.FC<PaginationProps> = ({
@@ -208,17 +236,6 @@ const toggleTaskStatus = (index: number) => {
     </div>
   );
 
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [page, setPage] = useState<number>(1);
-  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
-    tache: false,
-    description: false,
-    datelimit: false,
-    priority: false,
-    status: false,
-  });
-
   const TachesPerPage = 20;
 
   // Filter and paginate Taches based on search term
@@ -239,8 +256,8 @@ const toggleTaskStatus = (index: number) => {
   };
 
   return (
-    <div className="w-full flex max-h-screen overflow-y-scroll flex-col place-content-start place-items-center p-2  gap-2 flex-grow max-md:pl-0 max-md:pb-24 ">
-      <Calendar_employee/>
+    <div className="w-full flex max-h-screen overflow-y-scroll flex-col place-content-start place-items-center p-2 gap-2 flex-grow max-md:pl-0 max-md:pb-24 ">
+      <Calendar_employee />
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <button
         className="pl-3 self-start flex items-center gap-2 text-black"

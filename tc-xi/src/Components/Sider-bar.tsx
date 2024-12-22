@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function SideBar() {
   const path = window.location.pathname.toLowerCase();
-  const [userType, setType] = useState("employee"); // Default empty
+  const [userType, setType] = useState("hr"); // Default empty
   const [userSSn, setssn] = useState("123"); // Default empty
   const [selected, setselected] = useState("Tableau de Bord");
 

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 
 const Calendar_employee = () => {
   const [currentDate, setCurrentDate] = useState(dayjs());
+  const [events, setEvents] = useState<any>({});
 
   const daysInMonth = currentDate.daysInMonth();
   const startDayOfWeek = currentDate.startOf("month").day();
@@ -16,16 +17,41 @@ const Calendar_employee = () => {
     setCurrentDate(currentDate.add(1, "month"));
   };
 
-  // Example event data
-  const events = {
-    5: [{ name: "Team Meeting", time: "10:00 AM - 11:00 AM" }],
-    12: [{ name: "Project Deadline", time: "All Day" }],
-    15: [
-      { name: "Workshop", time: "2:00 PM - 4:00 PM" },
-      { name: "Client Call", time: "5:00 PM - 6:00 PM" },
-    ],
-    20: [{ name: "Office Party", time: "6:00 PM - 9:00 PM" }],
+  // Fetch events from an API
+  const fetchEvents = async () => {
+    try {
+      // Simulate fetching data from an API (Replace the URL with your actual API endpoint)
+      const response = await fetch("https://api.example.com/events");
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const fetchedData = await response.json();
+
+      // Assuming the fetched data is structured with date as the key and events as values
+      setEvents(fetchedData);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+
+      // Fallback data in case of an error
+      const fallbackData = {
+        5: [{ name: "TC", time: "10:00 AM - 11:00 AM" }],
+        12: [{ name: "Project Deadline", time: "All Day" }],
+        15: [
+          { name: "Workshop", time: "2:00 PM - 4:00 PM" },
+          { name: "Client Call", time: "5:00 PM - 6:00 PM" },
+        ],
+        20: [{ name: "Office Party", time: "6:00 PM - 9:00 PM" }],
+      };
+
+      setEvents(fallbackData);
+    }
   };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
   const getCellContent = (day: number) => {
     const dayEvents = events[day] || [];

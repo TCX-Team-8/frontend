@@ -9,6 +9,7 @@ interface HolidayCardProps {
   endtime: string;
   reason: string;
   treated: boolean;
+  status: string; // Add the status property
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -21,18 +22,23 @@ const HolidayRequestCard: React.FC<HolidayCardProps> = ({
   endtime,
   reason,
   treated,
+  status, // Receive the status prop
   setOpen,
 }) => {
   return (
     <div
       className={`${
         treated ? "bg-ThirdBlue" : "bg-SecondaryBlue"
-      } rounded-3xl w-[250px] h-[350px] flex flex-col p-4 items-start gap-1 text-lg`}
+      } rounded-3xl w-[250px] h-[425px] flex flex-col p-4 items-start gap-1 text-lg`}
     >
       {/* Employee Header */}
       <div className="w-full flex justify-around items-center">
-        <IoIosPerson className={`w-14 h-14 text-xl  ${ !treated ? "text-ThirdBlue" : "text-SecondaryBlue"}`}/>
-         <div
+        <IoIosPerson
+          className={`w-14 h-14 text-xl  ${
+            !treated ? "text-ThirdBlue" : "text-SecondaryBlue"
+          }`}
+        />
+        <div
           className={`flex flex-col gap-2 text-lg place-content-start place-items-start ${
             treated ? "text-black" : "text-white"
           }`}
@@ -45,7 +51,9 @@ const HolidayRequestCard: React.FC<HolidayCardProps> = ({
       </div>
       {/* Holiday Type and Dates */}
       <div className="w-full flex flex-col items-start mt-4">
-      <h2 className={`font-bold ${treated?"text-black":"text-white"}`}>Type</h2>
+        <h2 className={`font-bold ${treated ? "text-black" : "text-white"}`}>
+          Type
+        </h2>
         <p
           className={`${
             treated ? "text-black" : "text-white"
@@ -53,7 +61,9 @@ const HolidayRequestCard: React.FC<HolidayCardProps> = ({
         >
           {type}
         </p>
-        <h2 className={`font-bold ${treated?"text-black":"text-white"}`}>Start/End time</h2>
+        <h2 className={`font-bold ${treated ? "text-black" : "text-white"}`}>
+          Start/End time
+        </h2>
         <p
           className={`${
             treated ? "text-black" : "text-white"
@@ -64,13 +74,33 @@ const HolidayRequestCard: React.FC<HolidayCardProps> = ({
       </div>
       {/* Reason and Details */}
       <div className="w-full flex flex-col place-content-start place-items-start h-full">
-        <h2 className={`font-bold ${treated?"text-black":"text-white"}`}>Reason</h2>
+        <h2 className={`font-bold ${treated ? "text-black" : "text-white"}`}>
+          Reason
+        </h2>
         <p className={`${treated ? "text-black" : "text-white"} text-start`}>
           {reason}
         </p>
+        {/* Display Status */}
+        <h2
+          className={`font-bold ${
+            treated ? "text-black" : "text-white"
+          } mt-2`}
+        >
+          Status:
+        </h2>
+        <p
+          className={`${
+            treated ? "text-black" : "text-white"
+          } text-start`}
+        >
+          {status} {/* Display the status */}
+        </p>
+
         <button
-          className={`${treated?"bg-SecondaryBlue text-white":"bg-ThirdBlue"} text-black font-semibold px-4 py-2 rounded-2xl w-full mt-2`}
-          onClick={()=>setOpen(true)}
+          className={`${
+            treated ? "bg-SecondaryBlue text-white" : "bg-ThirdBlue"
+          } text-black font-semibold px-4 py-2 rounded-2xl w-full mt-2`}
+          onClick={() => setOpen(true)}
         >
           Details
         </button>
