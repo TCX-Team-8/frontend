@@ -135,7 +135,7 @@ export default function SignIn() {
             )}
           </label>
           <label className="w-full flex flex-col gap-2">
-            <p className="text-gray-600 text-start">mot_de_passe</p>
+            <p className="text-gray-600 text-start">password</p>
             <div
               className={`flex border-2 rounded-md w-full pl-3 p-2 ${
                 errors.mot_de_passe
@@ -146,10 +146,10 @@ export default function SignIn() {
               <input
                 id="mot_de_passe"
                 name="mot_de_passe"
-                type={showmot_de_passe ? "text" : "mot_de_passe"}
+                type={showmot_de_passe ? "text" : "password"}
                 value={signInData.mot_de_passe}
                 onChange={handleInputChange}
-                placeholder="mot_de_passe"
+                placeholder="password"
                 className="peer h-full w-full pl-2 text-gray-900 focus:outline-none"
                 required
               />
@@ -167,10 +167,10 @@ export default function SignIn() {
             )}
           </label>
           <a
-            href="/forget-mot_de_passe"
+            href="/forget-password"
             className="text-sm text-b border-gray-500 self-end"
           >
-            Forget mot_de_passe?
+            Forget password?
           </a>
           <button
             type="submit"
