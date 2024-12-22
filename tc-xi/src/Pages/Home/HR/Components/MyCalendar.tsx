@@ -1,21 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar, { TileClassNameFn } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './MyCalendar.css';
 
 const MyCalendar: React.FC = () => {
-  const [date, setDate] = useState<Date>(new Date()); 
+  const [date, setDate] = useState<Date>(new Date());
+  const [attendanceData, setAttendanceData] = useState<Record<string, { late: number; absent: number }>>({});
 
   const handleDateChange = (e: any): void => {
-    setDate(e.target.value); 
+    setDate(e.target.value);
   };
 
-  
-  const attendanceData: Record<string, { late: number; absent: number }> = {
-    '2024-12-13': { late: 1, absent: 0 }, // Late
-    '2024-12-01': { late: 0, absent: 1 }, // Absent
-    '2024-12-23': { late: 0, absent: 1 }, // Absent
-  };
+  // Fetch attendance data from an API
+  useEffect(() => {
+    const fetchAttendanceData = async () => {
+      try {
+        // Replace with your actual API endpoint
+        const response = await fetch('https://your-api-endpoint.com/attendance');
+        if (!response.ok) {
+          throw new Error('Failed to fetch attendance data');
+        }
+
+        const fetchedData = await response.json();
+        // Set the fetched data into state
+        setAttendanceData(fetchedData);
+      } catch (error) {
+        console.error('Error fetching attendance data:', error);
+        
+        // Initialize with fallback data in case of an error
+        setAttendanceData({
+          '2024-12-13': { late: 1, absent: 0 }, // Late
+          '2024-12-01': { late: 0, absent: 1 }, // Absent
+          '2024-12-17': { late: 0, absent: 1 }, // Absent
+        });
+      }
+    };
+
+    fetchAttendanceData();
+  }, []); // Run once when the component mounts
 
   // Function to format date as YYYY-MM-DD
   const formatDate = ({ date }: { date: Date }): string => {
@@ -26,7 +48,7 @@ const MyCalendar: React.FC = () => {
   };
 
   // Define the tileClassName function to apply dynamic classes
-  const tileClassName: TileClassNameFn = ({ date, view } :{date: Date , view:string}) => {
+  const tileClassName: TileClassNameFn = ({ date, view }: { date: Date, view: string }) => {
     if (view === 'month') {
       const formattedDate = formatDate({ date });
       const attendance = attendanceData[formattedDate];

@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoIosDoneAll, IoIosSearch, IoIosTime } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 import { HiX } from "react-icons/hi";
-
 
 // Define a type for Tache
 interface Tache {
@@ -12,18 +11,17 @@ interface Tache {
   dateLimit: string;
   priority: string;
   status: boolean;
-  assigned_to:string;
+  assigned_to: string;
 }
+
 interface FilterOptions {
   tache: boolean;
   description: boolean;
   datelimit: boolean;
   priority: boolean;
   status: boolean;
-  assigned_to:boolean;
+  assigned_to: boolean;
 }
-
-// Sample data for Taches
 
 interface SearchBarProps {
   searchTerm: string;
@@ -40,7 +38,7 @@ interface TacheTableProps {
     datelimit: boolean;
     priority: boolean;
     status: boolean;
-    assigned_to:boolean;
+    assigned_to: boolean;
   };
   toggleFilterOption: (option: keyof typeof FilterOptions) => void;
 }
@@ -57,7 +55,7 @@ interface FilterOptionsProps {
     datelimit: boolean;
     priority: boolean;
     status: boolean;
-    assigned_to:boolean;
+    assigned_to: boolean;
   };
   toggleFilterOption: (option: keyof typeof FilterOptions) => void;
 }
@@ -74,14 +72,45 @@ interface PaginationProps {
 }
 
 const Liste_taches2 = () => {
-  const TachesData: Tache[] = Array.from({ length: 25 }, () => ({
-    tache: "text",
-    description: "text",
-    dateLimit: "text",
-    priority: "text",
-    status: true,
-    assigned_to:"text"
-  }));
+  const [TachesData, setTachesData] = useState<Tache[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+    tache: false,
+    description: false,
+    datelimit: false,
+    priority: false,
+    status: false,
+    assigned_to: false,
+  });
+
+  const TachesPerPage = 20;
+
+  // Fetch data on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/taches");
+        const data = await response.json();
+        setTachesData(data);
+      } catch (error) {
+        console.error("Failed to fetch data, using fallback data.", error);
+        setTachesData(
+          Array.from({ length: 25 }, () => ({
+            tache: "Fallback task",
+            description: "Fallback description",
+            dateLimit: "Fallback date",
+            priority: "Fallback priority",
+            status: true,
+            assigned_to: "Fallback user",
+          }))
+        );
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const SearchBar: React.FC<SearchBarProps> = ({
     searchTerm,
@@ -167,15 +196,19 @@ const Liste_taches2 = () => {
 
   const TacheRow: React.FC<TacheRowProps> = ({ Tache, index }) => (
     <div
-    className={`w-full flex gap-4 items-center py-2 text-gray-800 bg-ThirdBlue rounded-lg`}
+      className={`w-full flex gap-4 items-center py-2 text-gray-800 bg-ThirdBlue rounded-lg`}
     >
       <h2 className="w-16">{Tache.tache}</h2>
       <h2 className="w-40">{Tache.description}</h2>
       <h2 className="w-24 truncate">{Tache.dateLimit}</h2>
       <h2 className="w-48">{Tache.priority}</h2>
-      {Tache.status ? <IoIosDoneAll className="bg-green-500 p-2 rounded-lg h-8 w-8"/>:<IoIosTime className="bg-red-500 p-2 rounded-lg w-8 h-8"/>} 
+      {Tache.status ? (
+        <IoIosDoneAll className="bg-green-500 p-2 rounded-lg h-8 w-8" />
+      ) : (
+        <IoIosTime className="bg-red-500 p-2 rounded-lg w-8 h-8" />
+      )}
       <h2 className="w-24">{Tache.assigned_to}</h2>
-     </div>
+    </div>
   );
 
   const Pagination: React.FC<PaginationProps> = ({
@@ -203,20 +236,6 @@ const Liste_taches2 = () => {
       </button>
     </div>
   );
-
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [page, setPage] = useState<number>(1);
-  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
-    tache: false,
-    description: false,
-    datelimit: false,
-    priority: false,
-    status: false,
-    assigned_to:false
-  });
-
-  const TachesPerPage = 20;
 
   // Filter and paginate Taches based on search term
   const filteredTaches = TachesData.filter((Tache) =>

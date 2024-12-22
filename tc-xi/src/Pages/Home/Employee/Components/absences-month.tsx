@@ -11,47 +11,55 @@ import {
 
 interface Absences_perW {
   week: number;
-  abs: number; // Change abs to a single number for each week
+  abs: number; // Absences for each week
 }
 
 export default function Absences() {
-  const [data, setData] = useState<Absences_perW[]>([]); // Changed type to array of Absences_perW
+  const [data, setData] = useState<Absences_perW[]>([]); // Initialize the state to hold absences data
 
   useEffect(() => {
     // Simulate fetching data from an API
     const fetchData = async () => {
-      const fetchedData = Array.from({ length: 4 }, (_, index) => ({
-        week: index + 1,
-        abs: Math.floor(Math.random() * 10) + 1, // Random absences for demo
-      }));
-      setData(fetchedData);
+      try {
+        const response = await fetch("https://your-api-endpoint.com/absences"); // Replace with your API URL
+        const result = await response.json();
+
+        // Assuming the API returns an array of weeks with absences
+        setData(result); // Update the data state with the fetched data
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error or use fallback data if necessary
+        setData([
+          { week: 1, abs: 3 },
+          { week: 2, abs: 5 },
+          { week: 3, abs: 2 },
+          { week: 4, abs: 4 },
+        ]); // Example fallback data
+      }
     };
 
     fetchData();
-  }, []);
+  }, []); // Empty dependency array to run only on mount
 
   return (
-
- <ResponsiveContainer height="90%" width="100%">
-
-    <AreaChart
-    className=""
-    width={500}
-    height={400}
-    data={data}
-    margin={{
-      top: 9,
-      right: 30,
-      left: 0,
-      bottom: 2,
-    }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="week" label={{ value: "Week", position: "insideBottom", dy: 4 }} />
-      <YAxis label={{ value: "Absences", angle: -90, position: "insideLeft", dx: -10 }} />
-      <Tooltip />
-      <Area type="monotone" dataKey="abs" stroke="#0C1B32" fill="#0C1B32" />
-    </AreaChart>
+    <ResponsiveContainer height="90%" width="100%">
+      <AreaChart
+        width={500}
+        height={400}
+        data={data}
+        margin={{
+          top: 9,
+          right: 30,
+          left: 0,
+          bottom: 2,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="week" label={{ value: "Week", position: "insideBottom", dy: 4 }} />
+        <YAxis label={{ value: "Absences", angle: -90, position: "insideLeft", dx: -10 }} />
+        <Tooltip />
+        <Area type="monotone" dataKey="abs" stroke="#0C1B32" fill="#0C1B32" />
+      </AreaChart>
     </ResponsiveContainer>
   );
 }

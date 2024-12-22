@@ -1,55 +1,85 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiX } from "react-icons/hi";
 import HolidayRequestCard from "./Components/Request-card";
 import HolidayRequest from "./Components/CongesAccepte";
 
 export default function VacationRequestManager() {
-  const [selected, setSelected] = useState<"untreated" | "treated">(
-    "untreated"
-  );
+  const [status, setStatus] = useState<string>("Pending");
+  const [selected, setSelected] = useState<"untreated" | "treated">("untreated");
   const [openFilter, setOpenFilter] = useState(false);
   const [filterState, setFilterState] = useState({
-        SSN:false,
-        firstName: false,
-        lastName: false,
-        email: false,
-        address: false,
-        type: false,
-        starttime:false,
-        endtime: false,
-        reason: false,
+    SSN: false,
+    firstName: false,
+    lastName: false,
+    email: false,
+    address: false,
+    type: false,
+    starttime: false,
+    endtime: false,
+    reason: false,
   });
   const [open, setOpen] = useState(false);
 
-  const vacationRequests = {
-    untreated: [
-      {
-        SSN:"38469301",
-        firstName: "Tarek",
-        lastName: "Si Bachir",
-        email: "tarek.sibachir@example.com",
-        address: "123 Main St",
-        type: "Full-Time",
-        starttime: "2023-12-25",
-        endtime: "2024-01-01",
-        reason: "Family vacation during the holidays.",
-      },
-    ],
-    treated: [
-      {
-        SSN:"38469301",
-        firstName: "Ali",
-        lastName: "Ben Ahmed",
-        email: "ali.benahmed@example.com",
-        address: "456 Elm St",
-        type: "Part-Time",
-        starttime: "2023-12-20",
-        endtime: "2023-12-28",
-        reason: "Attending a wedding abroad.",
-      },
-    ],
-  };
+  const [vacationRequests, setVacationRequests] = useState({
+    untreated: [],
+    treated: [],
+  });
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const response = await fetch("/api/vacation-requests");
+        const data = await response.json();
+        // Add status property to each request (assuming the API returns status)
+        setVacationRequests({
+          untreated: data.untreated.map((req: any) => ({
+            ...req,
+            status: "Pending", // Default status if not provided
+          })),
+          treated: data.treated.map((req: any) => ({
+            ...req,
+            status: req.status || "Approved", // Fallback to "Approved" if no status
+          })),
+        });
+      } catch (error) {
+        console.error("Failed to fetch vacation requests:", error);
+        // Initialize with default data in case of an error
+        setVacationRequests({
+          untreated: [
+            {
+              SSN: "38469301",
+              firstName: "Tarek",
+              lastName: "Si Bachir",
+              email: "tarek.sibachir@example.com",
+              address: "123 Main St",
+              type: "Full-Time",
+              starttime: "2023-12-25",
+              endtime: "2024-01-01",
+              reason: "Family vacation during the holidays.",
+              status: "Pending", // Default status
+            },
+          ],
+          treated: [
+            {
+              SSN: "38469301",
+              firstName: "Ali",
+              lastName: "Ben Ahmed",
+              email: "ali.benahmed@example.com",
+              address: "456 Elm St",
+              type: "Part-Time",
+              starttime: "2023-12-20",
+              endtime: "2023-12-28",
+              reason: "Attending a wedding abroad.",
+              status: "Approved", // Default status
+            },
+          ],
+        });
+      }
+    };
+
+    fetchRequests();
+  }, []);
 
   const renderRequests = () => {
     const documents =
@@ -59,20 +89,21 @@ export default function VacationRequestManager() {
 
     return documents.map((request, index) => (
       <div key={index}>
-         <HolidayRequestCard
-      key={index}
-      firstName={request.firstName}
-      lastName={request.lastName}
-      email={request.email}
-      type={request.type}
-      starttime={request.starttime}
-      endtime={request.endtime}
-      reason={request.reason}
-      treated={selected==="treated"}
-      setOpen={() => {
-        setOpen(true);
-      }}
-    />
+        <HolidayRequestCard
+          key={index}
+          firstName={request.firstName}
+          lastName={request.lastName}
+          email={request.email}
+          type={request.type}
+          starttime={request.starttime}
+          endtime={request.endtime}
+          reason={request.reason}
+          treated={selected === "treated"}
+          status={request.status} // Pass the status to the card
+          setOpen={() => {
+            setOpen(true);
+          }}
+        />
       </div>
     ));
   };
@@ -86,7 +117,7 @@ export default function VacationRequestManager() {
 
   return (
     <div className="relative w-[90vw] max-sm:w-screen max-sm:pb-20">
-      {/* requestument selection UI */}
+      {/* Request selection UI */}
       <div className="flex place-items-center place-content-center gap-4 md:gap-6 xl:gap-20 py-5">
         <div
           onClick={() => setSelected("untreated")}
@@ -111,6 +142,7 @@ export default function VacationRequestManager() {
           ></div>
         </div>
       </div>
+
       {/* Filter UI */}
       <div>
         <div
@@ -139,12 +171,15 @@ export default function VacationRequestManager() {
           </div>
         )}
       </div>
+
       {/* Render Vacation Requests */}
       <div className="flex sm:pl-20 sm:place-content-start place-content-center place-items-center">
         <div className="w-full flex flex-col place-items-center place-content-start sm:flex-row sm:flex-wrap gap-4 p-4">
           {renderRequests()}
         </div>
       </div>
+
+      {/* Modal for Request Details */}
       {open && (
         <div
           className="top-0 max-sm:-top-24 left-0 md:left-[10vw] sm:w-full md:w-[90vw] bg-transparent backdrop-blur-sm h-full fixed flex items-start justify-center z-50 overflow-scroll"
@@ -154,22 +189,23 @@ export default function VacationRequestManager() {
             onClick={(e) => e.stopPropagation()} // Prevents click from propagating to the outer div
             className="relative z-10 top-24"
           >
-         <HolidayRequest
-          employee={ {
-            SSN:"38469301",
-            firstName: "Ali",
-            lastName: "Ben Ahmed",
-            email: "ali.benahmed@example.com",
-            address: "456 Elm St",
-            type: "Part-Time",
-            starttime: "2023-12-20",
-            endtime: "2023-12-28",
-          }}
-          setOpen={setOpen}
-          reason={"Family vacation during the holidays."}
-        />
-           
-        </div>
+            <HolidayRequest
+              employee={{
+                SSN: "38469301",
+                firstName: "Ali",
+                lastName: "Ben Ahmed",
+                email: "ali.benahmed@example.com",
+                address: "456 Elm St",
+                type: "Part-Time",
+                starttime: "2023-12-20",
+                endtime: "2023-12-28",
+              }}
+              setOpen={setOpen}
+              reason={"Family vacation during the holidays."}
+              status={status} // Status of the request
+              setStatus={setStatus} // Set status function to update status
+            />
+          </div>
         </div>
       )}
     </div>

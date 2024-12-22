@@ -4,7 +4,7 @@ import { IoFilter } from "react-icons/io5";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 import { HiX } from "react-icons/hi";
 
-// Define a type for employee
+// Define types
 interface Employee {
   SSN: string;
   firstName: string;
@@ -68,7 +68,7 @@ interface PaginationProps {
 
 const ListeEmployees2 = () => {
   const [employeesData, setEmployeesData] = useState(
-    Array.from({ length: 25 }, () => ({
+    Array.from({ length: 10 }, () => ({
       SSN: "text",
       firstName: "text",
       lastName: "text",
@@ -88,8 +88,8 @@ const ListeEmployees2 = () => {
   };
 
   const handleAddTask = (index: number, task: Task) => {
-    setEmployeesData((prev:any) =>
-      prev.map(({employee, i}:{employee:Employee;i:number}) =>
+    setEmployeesData((prev: any) =>
+      prev.map(({ employee, i }: { employee: Employee; i: number }) =>
         i === index ? { ...employee, tasks: [...employee.tasks, task] } : employee
       )
     );
@@ -189,11 +189,35 @@ const ListeEmployees2 = () => {
       deadline: "",
     });
 
-const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       if (task.name && task.description && task.priority && task.deadline) {
-        handleAddTask(index, task);
-        setTask({ name: "", description: "", priority: "", deadline: "" });
+        try {
+          const response = await fetch("/api/tasks", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              employeeIndex: index,
+              task: task,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to add task");
+          }
+
+          // Update local employee data after successful POST request
+          handleAddTask(index, task);
+          setTask({ name: "", description: "", priority: "", deadline: "" });
+          alert("Task added successfully");
+        } catch (error) {
+          console.error("Error adding task:", error);
+          alert("There was an error adding the task.");
+        }
+      } else {
+        alert("Please fill in all the fields.");
       }
     };
 
@@ -350,4 +374,5 @@ const handleSubmit = (e: React.FormEvent) => {
     </div>
   );
 };
-export default ListeEmployees2
+
+export default ListeEmployees2;

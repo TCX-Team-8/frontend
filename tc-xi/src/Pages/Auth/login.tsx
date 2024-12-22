@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import login from "../../assets/login.svg";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";  // Importing useNavigate for programmatic navigation
 
 interface SignInData {
   identifier: string; // Either email or ID
@@ -15,7 +15,9 @@ export default function SignIn() {
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-  const usertype = "hr";
+  const [isLoading, setIsLoading] = useState(false); // To manage the loading state
+  const navigate = useNavigate(); // Initialize navigate hook
+  const [userType, setUserType] = useState("employee");
 
   const validateInputs = () => {
     const newErrors: Partial<SignInData> = {};
@@ -41,26 +43,50 @@ export default function SignIn() {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (validateInputs()) {
-      console.log(signInData);
+      setIsLoading(true); // Start loading before fetching
 
       const formData = new FormData();
-      formData.append("identifier", signInData.identifier); // Changed to "identifier"
+      formData.append("identifier", signInData.identifier);
       formData.append("password", signInData.password);
 
-      // Simulated response for validation
-      const response = {
-        success: false,
-        error: "incorrect informations",
-      };
-
-      if (!response.success && response.error === "incorrect informations") {
-        setErrors({
-          identifier: "Email or ID and password do not match",
-          password: "Email or ID and password do not match",
+      try {
+        const response = await fetch("/api/signin", {
+          method: "POST",
+          body: formData,
         });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Assuming the response contains userType, ssn, and token
+          const { userType, ssn, token } = data;
+
+          // Store token and any necessary session information
+          localStorage.setItem("userToken", token);
+          localStorage.setItem("userType", userType); // Store userType for future use
+          localStorage.setItem("userSSN", ssn); // Store SSN for future use
+
+          // Redirect to the user's dashboard using userType and ssn
+          navigate(`/${userType}/${ssn}`); // Navigate to the dynamic route with userType and ssn
+        } else {
+          // Handle error response (e.g., incorrect credentials)
+          setErrors({
+            identifier: "Email or ID and password do not match",
+            password: "Email or ID and password do not match",
+          });
+        }
+      } catch (error) {
+        console.error("Error during sign-in:", error);
+        setErrors({
+          identifier: "An error occurred. Please try again.",
+          password: "An error occurred. Please try again.",
+        });
+      } finally {
+        setIsLoading(false); // Stop loading after the request
       }
-      }
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +104,7 @@ export default function SignIn() {
       </div>
       <div className="flex flex-col items-center gap-3 w-full md:w-1/2 max-w-[500px]">
         <h1 className="text-4xl font-bold text-PrimaryBlue text-center">
-         Welcome
+          Welcome
         </h1>
         <form
           className="w-full flex flex-col items-center shadow-xl rounded-lg bg-white p-6 gap-3"
@@ -97,10 +123,11 @@ export default function SignIn() {
               value={signInData.identifier}
               onChange={handleInputChange}
               placeholder="Email Address or ID"
-              className={`border-2 rounded-md w-full pl-3 p-2 outline-none ${errors.identifier
+              className={`border-2 rounded-md w-full pl-3 p-2 outline-none ${
+                errors.identifier
                   ? "border-red-500"
                   : "border-gray-200 focus:border-gray-500"
-                }`}
+              }`}
               required
             />
             {errors.identifier && (
@@ -110,10 +137,11 @@ export default function SignIn() {
           <label className="w-full flex flex-col gap-2">
             <p className="text-gray-600 text-start">Password</p>
             <div
-              className={`flex border-2 rounded-md w-full pl-3 p-2 ${errors.password
+              className={`flex border-2 rounded-md w-full pl-3 p-2 ${
+                errors.password
                   ? "border-red-500"
                   : "border-gray-200 focus:border-gray-500"
-                }`}
+              }`}
             >
               <input
                 id="password"
@@ -147,8 +175,9 @@ export default function SignIn() {
           <button
             type="submit"
             className="w-full bg-[#B5C5DF] border-gray-500 rounded-md p-2 text-white font-semibold"
+            disabled={isLoading} // Disable the button during loading
           >
-            Sign in
+            {isLoading ? "Signing In..." : "Sign in"}
           </button>
         </form>
       </div>

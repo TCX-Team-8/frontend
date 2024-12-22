@@ -1,5 +1,6 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { BiSolidEditAlt } from "react-icons/bi";
+import Loading from "../Pages/loading";
 
 // Define the shape of the personalInfo state
 interface PersonalInfo {
@@ -19,22 +20,7 @@ interface PersonalInfo {
 type EditMode = Record<keyof PersonalInfo, boolean>;
 
 const ChangePersonalInfo: React.FC = () => {
-  // Define the state with default personal information, including the image path
-  const [personalInfo, setPersonalInfo] = useState<PersonalInfo>({
-    nom: "Caline",
-    prenom: "Doe",
-    email: "caline.doe@example.com",
-    tel: "123-456-7890",
-    nss: "987-654-3210",
-    adresse: "123 Main St",
-    date_naiss: "2004-01-01",
-    departement: "IT",
-    photo: "/images/default-photo.png",  // Default image path
-    mdp: "password123",
-    matricule: "12345",
-  });
-
-  // State to track which fields are being edited
+  const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(null); // Initialize with null until data is fetched
   const [editMode, setEditMode] = useState<EditMode>({
     nom: false,
     prenom: false,
@@ -44,20 +30,34 @@ const ChangePersonalInfo: React.FC = () => {
     adresse: false,
     date_naiss: false,
     departement: false,
-    photo: false,  // Only allow photo field to be edited
+    photo: false,
     mdp: false,
     matricule: false,
   });
 
-  // Handle input change and update state accordingly
+  // Fetch personal info from the backend
+  useEffect(() => {
+    const fetchPersonalInfo = async () => {
+      try {
+        const response = await fetch("/api/personal-info"); // Replace with your backend endpoint
+        const data = await response.json();
+        setPersonalInfo(data);
+      } catch (error) {
+        console.error("Error fetching personal info:", error);
+      }
+    };
+
+    fetchPersonalInfo();
+  }, []);
+
   const handleChange = (field: keyof PersonalInfo, value: string): void => {
+    if (!personalInfo) return;
     setPersonalInfo((prevState) => ({
-      ...prevState,
+      ...prevState!,
       [field]: value,
     }));
   };
 
-  // Toggle edit mode for the field
   const handleEditToggle = (field: keyof PersonalInfo): void => {
     setEditMode((prevState) => ({
       ...prevState,
@@ -65,31 +65,57 @@ const ChangePersonalInfo: React.FC = () => {
     }));
   };
 
-  // Handle image upload
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0];
-    if (file && file.type.startsWith("image/")) {
+    if (file && personalInfo) {
       setPersonalInfo((prevState) => ({
-        ...prevState,
-        photo: URL.createObjectURL(file),  // Create an object URL for the selected image
+        ...prevState!,
+        photo: URL.createObjectURL(file),
       }));
     }
   };
 
+  // Save changes to the backend
+  const saveChanges = async () => {
+    try {
+      const response = await fetch("/api/personal-info", {
+        method: "PUT", // or POST depending on your backend
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(personalInfo),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save changes");
+      }
+
+      alert("Changes saved successfully!");
+    } catch (error) {
+      console.error("Error saving changes:", error);
+      alert("Failed to save changes");
+    }
+  };
+
+  if (!personalInfo) {
+    return <Loading/>;
+  }
+
   return (
     <div className="p-4 w-full h-full">
       <div className="font-semibold text-xl text-center mb-4 ml-0">Informations personnelles</div>
-      <div className="flex flex-col items-center gap-4 ">
+      <div className="flex flex-col items-center gap-4">
         {Object.keys(personalInfo).map((field) => (
           <div
             key={field}
             className="p-2 bg-gray-100 w-full max-w-4xl rounded-md shadow-md flex items-center gap-4 justify-between"
           >
-            <label htmlFor={field} className="text-sm font-medium text-gray-700 w-1/4">{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+            <label htmlFor={field} className="text-sm font-medium text-gray-700 w-1/4">
+              {field.charAt(0).toUpperCase() + field.slice(1)}
+            </label>
 
             {field === "photo" ? (
-              <div className="flex items-center gap-4 ">
-                {/* If in edit mode, show the file input */}
+              <div className="flex items-center gap-4">
                 {editMode[field as keyof EditMode] ? (
                   <input
                     type="file"
@@ -98,7 +124,6 @@ const ChangePersonalInfo: React.FC = () => {
                     className="border w-full sm:w-4/5 md:w-[50rem] rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 ) : (
-                  // If not in edit mode, show the image
                   <img
                     src={personalInfo.photo}
                     alt="Profile"
@@ -127,6 +152,12 @@ const ChangePersonalInfo: React.FC = () => {
             </button>
           </div>
         ))}
+        <button
+          onClick={saveChanges}
+          className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 mt-4"
+        >
+          Save Changes
+        </button>
       </div>
     </div>
   );

@@ -1,18 +1,29 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { IoIosBasketball, IoMdNotificationsOutline } from "react-icons/io";
 import { IoClose, IoHelpCircleOutline } from "react-icons/io5";
 import { FaCircle } from "react-icons/fa";
 
 const Header: React.FC = () => {
   const modalRef = useRef<HTMLDialogElement>(null);
-  const [notifications, setNotifications] = useState<string[]>([
-    "Nouveau message de John",
-    "Mise à jour système disponible",
-    "Réunion à 15h",
-    "Votre tâche est à rendre demain",
-    "Nouveau commentaire sur votre publication",
-  ]);
+  const [notifications, setNotifications] = useState<string[]>([]);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+
+  useEffect(() => {
+   
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch('https://your-api-endpoint.com/notifications');
+        const data = await response.json();
+        if (data.notifications) {
+          setNotifications(data.notifications);
+        }
+      } catch (error) {
+        console.error('Failed to fetch notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
 
   const openModal = () => {
     modalRef.current?.showModal();
