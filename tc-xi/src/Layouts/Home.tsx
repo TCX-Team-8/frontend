@@ -1,9 +1,9 @@
 import { Outlet, Navigate, Link } from "react-router-dom";
 import Sidebar from "../Components/Sider-bar";
-import { IoMdCall, IoMdNotificationsOutline, IoMdPhonePortrait } from "react-icons/io";
+import { IoMdCall, IoMdNotificationsOutline } from "react-icons/io";
 import { IoPersonOutline, IoSwapHorizontalOutline } from "react-icons/io5";
 import { FiLogOut } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function HomeLayout() {
   const isAuthenticated = false;
@@ -13,15 +13,50 @@ export default function HomeLayout() {
   const [openNotification, setOpenNotification] = useState(false); // If you plan to use this
   const [openCall, setOpenCall] = useState(false); // If you plan to use this
   const [usertype,setUserType] = useState('employee');
-  const NotficationCard=()=>{
-    return(
-      <div className="text-black w-full gap-2 p-2 flex place-content-start place-items-center border-b border-b-gray-300 h-16">
-                        <IoSwapHorizontalOutline className="text-PrimaryBlue text-lg" />
-                        <h1 className="opacity-70 ">Swap Request</h1>
-                        <h1 className="text-black text-xs flex-grow text-end">01/15 <br/> 12:03</h1>
-      </div>
-    )
-  }
+  const [notifications, setNotifications] = useState([
+    {
+      id: 5,
+      type: "Avertissement",
+      timestamp: "12:00"
+    },
+  ]);
+  const [user, setUser] = useState({
+    name: "John Doe",
+    ssn: "333",
+  });
+  const NotificationCard = ({ type, timestamp }: { type: string; timestamp: string }) => (
+    <div className="text-black w-full gap-2 p-2 flex place-content-start place-items-center border-b border-b-gray-300 h-16">
+      <IoSwapHorizontalOutline className="text-PrimaryBlue text-lg" />
+      <h1 className="opacity-70">{type}</h1>
+      <h1 className="text-black text-xs flex-grow text-end">{timestamp}</h1>
+    </div>
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch user data
+        const userResponse = await fetch("/api/user");
+        const userData = await userResponse.json();
+
+        // Fetch notifications
+        const notificationResponse = await fetch("/api/notifications");
+        const notificationData = await notificationResponse.json();
+
+        // Set state
+        setUser({
+          name: userData.name,
+          ssn: userData.ssn,
+        });
+        setNotifications(notificationData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       {isAuthenticated ? (
@@ -62,8 +97,8 @@ export default function HomeLayout() {
                 )}
                 {openProfile && (
                   <div  className="text-black w-64 absolute top-24 right-5 z-50 bg-[#edf1f4] rounded-xl h-fit flex flex-col">
-                    <h2 className="w-full p-2 border-b border-gray-300">Hi, Tarek 👋</h2>
-                    <Link to={"/profile/ssn6"} className="w-full p-2 border-b border-gray-300 flex gap-2 items-center">
+                    <h2 className="w-full p-2 border-b border-gray-300">Hi, {user.name} 👋</h2>
+                    <Link to={"/"+usertype+"/"+user.ssn+"/profile"} className="w-full p-2 border-b border-gray-300 flex gap-2 items-center">
                       <IoPersonOutline  />
                       Profile
                     </Link>
@@ -75,8 +110,13 @@ export default function HomeLayout() {
                 )}
                 {openNotification&&(
                     <div className="w-64 absolute top-24 right-12 z-50 bg-[#edf1f4] rounded-xl h-fit flex flex-col">
-                      <NotficationCard />
-                      <NotficationCard />
+                      {notifications.map((notification) => (
+                      <NotificationCard
+                        key={notification.id}
+                        type={notification.type}
+                        timestamp={notification.timestamp}
+                      />
+                    ))}
                   </div>
                   )}
               </div>

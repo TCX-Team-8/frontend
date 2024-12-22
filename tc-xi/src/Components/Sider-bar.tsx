@@ -92,6 +92,13 @@ export default function SideBar() {
         <MdFormatAlignLeft className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
+    {
+      title: "Information personnel",
+      path: "change-info",
+      icon: (
+        <MdOutlinePrivacyTip className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
+      ),
+    }
   ];
   
   const Services_admin = [
