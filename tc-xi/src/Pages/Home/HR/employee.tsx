@@ -242,19 +242,19 @@ const ListeEmployees2 = () => {
           </button>
         </div>
         {employee.isOpen && (
-          <form className="flex gap-2 p-2" onSubmit={handleSubmit}>
-            <label>
+          <form className="overflow-y-scroll max-md:w-full max-md:flex-col max-md:place-items-start flex gap-2 p-2" onSubmit={handleSubmit}>
+            <label className="w-full">
               <input
-                className="w-32 p-1 rounded-md border-gray-400"
+                className="max-md:w-full w-32 p-1 rounded-md border-gray-400"
                 type="text"
                 placeholder="Task Name"
                 value={task.name}
                 onChange={(e) => setTask({ ...task, name: e.target.value })}
               />
             </label>
-            <label>
+            <label className="w-full">
               <input
-                className="w-44 p-1 rounded-md border-gray-400"
+                className="max-md:w-full w-44 p-1 rounded-md border-gray-400"
                 type="text"
                 placeholder="Description"
                 value={task.description}
@@ -263,18 +263,18 @@ const ListeEmployees2 = () => {
                 }
               />
             </label>
-            <label>
+            <label className="w-full">
               <input
-                className="w-32 p-1 rounded-md border-gray-400"
+                className="max-md:w-full w-32 p-1 rounded-md border-gray-400"
                 type="text"
                 placeholder="Priority"
                 value={task.priority}
                 onChange={(e) => setTask({ ...task, priority: e.target.value })}
               />
             </label>
-            <label>
+            <label className="w-full">
               <input
-                className="w-32 p-1 rounded-md border-gray-400"
+                className="max-md:w-full w-32 p-1 rounded-md border-gray-400"
                 type="text"
                 placeholder="Deadline"
                 value={task.deadline}
@@ -283,7 +283,7 @@ const ListeEmployees2 = () => {
             </label>
             <button
               type="submit"
-              className="bg-SecondaryBlue p-1 px-2 rounded-md"
+              className="bg-SecondaryBlue p-1 px-2 rounded-md self-end"
             >
               Submit
             </button>

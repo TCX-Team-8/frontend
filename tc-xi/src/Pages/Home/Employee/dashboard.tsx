@@ -64,33 +64,29 @@ export default function Dashboard() {
   return (
     <section className="w-full overflow-x-hidden p-2 max-h-screen overflow-y-scroll flex flex-col place-content-start place-items-center">
       <section className="text-black w-full p-3 flex place-content-center place-items-center gap-5">
-        <div className="bg-ThirdBlue flex-grow w-full h-44 shadow-lg rounded-xl p-3 flex flex-col place-items-start">
-          <h1 className="text-sm font-thin">Les retards</h1>
-          <p className="text-xl text-start font-semibold">
-            {data.retards.totalHours} hours
-          </p>
-        </div>
-        <div className="bg-SecondaryBlue flex-grow w-full h-44 shadow-lg rounded-xl p-3 flex flex-col place-content-start place-items-start">
-          <h1 className="text-sm font-thin">Les absences</h1>
-          <p className="text-xl text-start font-semibold">
-            {data.absences.weekly} par semaine
-          </p>
-        </div>
-        <div className="bg-ThirdBlue flex-grow w-full h-44 shadow-lg rounded-xl p-3 flex flex-col place-content-start place-items-start">
-          <h1 className="text-sm font-thin">Prédiction d'absentéisme</h1>
-          <p className="text-xl text-start font-semibold">{data.prediction}%</p>
-        </div>
-        <div className="bg-SecondaryBlue flex-grow w-full h-44 overflow-y-scroll shadow-lg rounded-2xl p-3 flex flex-col place-content-start place-items-start gap-1">
-          {data.warnings.map((warning, index) => (
-            <div
-              key={index}
-              className="w-full h-20 px-2 border-b border-b-PrimaryBlue flex place-content-start place-items-center gap-2"
-            >
-              <IoIosWarning className="w-5 h-5" />
-              <p className="text-start text-sm">{warning}</p>
-            </div>
-          ))}
-        </div>
+         <div className="bg-ThirdBlue flex-grow w-full h-32 shadow-lg rounded-xl p-3 flex flex-col place-items-start">
+                  <h1 className="text-sm font-thin">Les retards</h1>
+                  <p className="text-xl text-start font-semibold">{data.retards.totalHours} hours</p>
+                </div>
+                <div className="bg-SecondaryBlue text-white flex-grow w-full h-32 shadow-lg rounded-xl p-3 flex flex-col place-content-start place-items-start">
+                  <h1 className="text-sm font-thin">Les absences</h1>
+                  <p className="text-xl text-start font-semibold">{data.absences.weekly} par semaine</p>
+                </div>
+                <div className="bg-ThirdBlue flex-grow w-full h-32 shadow-lg rounded-xl p-3 flex flex-col place-content-start place-items-start">
+                  <h1 className="text-sm font-thin">Prédiction d'absentéisme</h1>
+                  <p className="text-xl text-start font-semibold">{data.prediction}%</p>
+                </div>
+                <div className="bg-SecondaryBlue max-xl:hidden text-white flex-grow w-full h-32 overflow-y-scroll shadow-lg rounded-2xl p-3 flex flex-col place-content-start place-items-start gap-1">
+                  {data.warnings.map((warning, index) => (
+                    <div
+                      key={index}
+                      className="w-full h-20 px-2 border-b border-b-PrimaryBlue flex place-content-start place-items-center gap-2"
+                    >
+                      <IoIosWarning className="w-5 h-5" />
+                      <p className="text-start text-sm">{warning}</p>
+                    </div>
+                  ))}
+                </div>
       </section>
       <div className="px-3 w-full flex gap-5 max-md:pb-24">
         <div className="pt-5 flex-grow w-screen bg-white rounded-2xl flex flex-col px-5">

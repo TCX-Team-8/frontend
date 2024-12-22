@@ -1,6 +1,6 @@
 import { Outlet, Navigate, Link } from "react-router-dom";
 import Sidebar from "../Components/Sider-bar";
-import { IoMdCall, IoMdNotificationsOutline } from "react-icons/io";
+import { IoIosHelp, IoMdCall, IoMdNotificationsOutline } from "react-icons/io";
 import { IoPersonOutline, IoSwapHorizontalOutline } from "react-icons/io5";
 import { FiLogOut } from "react-icons/fi";
 import { useEffect, useState } from "react";
@@ -68,14 +68,14 @@ export default function HomeLayout() {
         }
         >
           <Sidebar />
-          <div className="max-h-screen w-full flex-grow flex flex-col overflow-hidden max-md:w-screen max-md:overflow-y-visible max-md:h-auto max-md:place-items-center ">
+          <div className="max-h-screen w-full flex-grow flex flex-col overflow-hidden max-md:w-screen max-md:overflow-y-visible max-md:h-auto max-md:place-items-cente max-md:pb-20 r ">
             <div className="hidden sm:flex w-full justify-end h-24 p-4">
               <div className="w-44 h-full bg-[#edf1f4] rounded-3xl p-2 flex flex-row items-center justify-end gap-3">
               <div
                  className="w-12 h-12 rounded-full flex justify-center items-center"
                 onClick={() => {setOpenNotification(false);setOpenProfile(false);setOpenCall((prev) => !prev)}}
                 >
-                  <IoMdCall className="text-2xl text-PrimaryBlue" />
+                  <IoIosHelp className="text-2xl font-light w-12 h-12 text-PrimaryBlue" />
                 </div>
                 <div
                  className="w-12 h-12 rounded-full flex justify-center items-center"

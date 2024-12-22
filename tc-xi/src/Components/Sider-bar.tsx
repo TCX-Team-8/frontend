@@ -12,9 +12,9 @@ import { TbFaceId } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 
 export default function SideBar() {
-  const path = window.location.pathname.toLowerCase();
+  //const path = window.location.pathname.toLowerCase();
 
-  const [userType, setType] = useState("hr"); // Default empty
+  const [userType, setType] = useState("admin"); // Default empty
   const [userSSn, setssn] = useState("123"); // Default empty
 
   const [selected, setselected] = useState("Tableau de Bord");
@@ -53,27 +53,6 @@ export default function SideBar() {
 
   const Services_rh = [
     {
-      title: "Notification",
-      path: "notification",
-      icon: (
-        <MdOutlineNotifications className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
-      ),
-    },
-    {
-      title: "Liste d'employees",
-      path: "employee",
-      icon: (
-        <FaPeopleGroup className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
-      ),
-    },
-    {
-      title: "Check In/Out",
-      path: "Check-in-out",
-      icon: (
-        <TbFaceId className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
-      ),
-    },
-    {
       title: "Taches",
       path: "taches",
       icon: (
@@ -88,10 +67,31 @@ export default function SideBar() {
       ),
     },
     {
-      title: "Demande de conge",
+      title: "Gestion de conge",
       path: "treat-conges",
       icon: (
         <MdFormatAlignLeft className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
+      ),
+    },
+    {
+      title: "Liste d'employees",
+      path: "employee",
+      icon: (
+        <FaPeopleGroup className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
+      ),
+    },
+    {
+      title: "Notification",
+      path: "notification",
+      icon: (
+        <MdOutlineNotifications className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
+      ),
+    },
+    {
+      title: "Check In/Out",
+      path: "Check-in-out",
+      icon: (
+        <TbFaceId className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
     {
@@ -151,7 +151,7 @@ export default function SideBar() {
   return (
     <>
       <div className="max-md:hidden  h-full w-[270px] max-lg:w-36 bg-PrimaryBlue flex flex-col gap-8  max-md:place-items-center place-items-start pt-4">
-        <div className="w-10 h-10 bg-ThirdBlue rounded-full ml-5">logoooo</div>
+        <div className="w-10 h-10 rounded-full pl-2"><h1 className="logo text-[3vw]">EMPire</h1></div>
         <div className="flex flex-col h-full w-full items-start justify-between">
           <ul className="w-full flex flex-col gap-5 py-4">
             {userType.toLocaleLowerCase() === "hr" &&

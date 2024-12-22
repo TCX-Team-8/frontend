@@ -20,7 +20,20 @@ interface PersonalInfo {
 type EditMode = Record<keyof PersonalInfo, boolean>;
 
 const ChangePersonalInfo: React.FC = () => {
-  const [personalInfo, setPersonalInfo] = useState<PersonalInfo | null>(null); // Initialize with null until data is fetched
+  const [personalInfo, setPersonalInfo] = useState<PersonalInfo>({
+    nom: "John",
+    prenom: "Doe",
+    email: "johndoe@example.com",
+    tel: "+123456789",
+    nss: "1234567890123",
+    adresse: "123 Main Street, Hometown, Country",
+    date_naiss: "1990-01-01",
+    departement: "IT",
+    photo: "/default-photo.jpg", // Example photo URL
+    mdp: "password123",
+    matricule: "12345",
+  }); // Initialize with example data
+
   const [editMode, setEditMode] = useState<EditMode>({
     nom: false,
     prenom: false,
@@ -35,13 +48,13 @@ const ChangePersonalInfo: React.FC = () => {
     matricule: false,
   });
 
-  // Fetch personal info from the backend
+  // Fetch personal info from the backend (you can still use this part if you want to override with real data later)
   useEffect(() => {
     const fetchPersonalInfo = async () => {
       try {
         const response = await fetch("/api/personal-info"); // Replace with your backend endpoint
         const data = await response.json();
-        setPersonalInfo(data);
+        setPersonalInfo(data); // Overwrite with real data
       } catch (error) {
         console.error("Error fetching personal info:", error);
       }
@@ -97,18 +110,14 @@ const ChangePersonalInfo: React.FC = () => {
     }
   };
 
-  if (!personalInfo) {
-    return <Loading/>;
-  }
-
   return (
-    <div className="p-4 w-full h-full">
-      <div className="font-semibold text-xl text-center mb-4 ml-0">Informations personnelles</div>
+    <div className="p-4 w-full min-h-screen  ">
+      <div className="font-semibold text-black text-xl text-center mb-4 ml-0">Informations personnelles</div>
       <div className="flex flex-col items-center gap-4">
         {Object.keys(personalInfo).map((field) => (
           <div
             key={field}
-            className="p-2 bg-gray-100 w-full max-w-4xl rounded-md shadow-md flex items-center gap-4 justify-between"
+            className="p-2 bg-gray-100 w-full max-w-4xl rounded-md border border-gray-400 flex items-center gap-4 justify-between"
           >
             <label htmlFor={field} className="text-sm font-medium text-gray-700 w-1/4">
               {field.charAt(0).toUpperCase() + field.slice(1)}
@@ -154,7 +163,7 @@ const ChangePersonalInfo: React.FC = () => {
         ))}
         <button
           onClick={saveChanges}
-          className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 mt-4"
+          className="bg-green-500  w-full max-w-4xl text-white px-3 py-2 rounded-md hover:bg-green-600 mt-2"
         >
           Save Changes
         </button>

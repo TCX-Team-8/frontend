@@ -123,7 +123,7 @@ export default function VacationRequestManager() {
           onClick={() => setSelected("untreated")}
           className="cursor-pointer flex flex-col items-center gap-2"
         >
-          <h1 className="text-xl font-medium">Untreated Requests</h1>
+          <h1 className="text-xl text-black font-medium">Untreated Requests</h1>
           <div
             className={`w-32 md:w-52 h-2 rounded-xl ${
               selected === "treated" ? "bg-ThirdBlue" : "bg-PrimaryBlue"
@@ -134,7 +134,7 @@ export default function VacationRequestManager() {
           onClick={() => setSelected("treated")}
           className="cursor-pointer flex flex-col items-center gap-2"
         >
-          <h1 className="text-xl font-medium">Treated Requests</h1>
+          <h1 className="text-xl text-black font-medium">Treated Requests</h1>
           <div
             className={`w-32 md:w-52 h-2 rounded-xl ${
               selected === "untreated" ? "bg-ThirdBlue" : "bg-PrimaryBlue"
@@ -182,7 +182,7 @@ export default function VacationRequestManager() {
       {/* Modal for Request Details */}
       {open && (
         <div
-          className="top-0 max-sm:-top-24 left-0 md:left-[10vw] sm:w-full md:w-[90vw] bg-transparent backdrop-blur-sm h-full fixed flex items-start justify-center z-50 overflow-scroll"
+          className="top-0 max-sm:-top-24 left-0  md:left-[15vw] w-full bg-transparent backdrop-blur-sm h-screen fixed flex items-start justify-center z-50 overflow-scroll"
           onClick={() => setOpen(false)} // Closes popup on outside click
         >
           <div

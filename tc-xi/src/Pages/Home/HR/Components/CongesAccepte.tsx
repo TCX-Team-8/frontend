@@ -69,7 +69,7 @@ export default function HolidayRequest({
 
   return (
     <div className="w-fit flex flex-col place-content-center place-items-center bg-white rounded-md shadow-md">
-      <div className="w-full max-w-[1000px] rounded-xl flex flex-col place-content-center place-items-center p-4">
+      <div className="w-full rounded-xl flex flex-col place-content-center place-items-center p-4">
         {/* Title */}
         <h1 className="text-5xl text-PrimaryBlue flex gap-2 place-content-center place-items-center">
           Holiday Request

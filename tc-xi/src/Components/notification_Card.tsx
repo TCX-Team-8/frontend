@@ -4,11 +4,11 @@ import { CgProfile } from "react-icons/cg";
 export default function Notification_card({
   type_tag,
   Type,
-  Student,
+  time
 }: {
   type_tag: ReactNode;
   Type: string;
-  Student: string;
+  time:string;
 }) {
   const [notifications, setNotifications] = useState<string[]>([]);
 
@@ -35,20 +35,7 @@ export default function Notification_card({
         {type_tag}
         <p className="text-lg">{Type}</p>
       </div>
-      <p>{Student}</p>
-      <CgProfile className="w-14 h-14 text-PrimaryBlue" />
-      
-      {/* Optional: Display fetched notifications */}
-      <div className="mt-4">
-        <h4 className="font-semibold">Recent Notifications:</h4>
-        {notifications.length > 0 ? (
-          notifications.map((notif, index) => (
-            <div key={index} className="text-sm text-gray-600">{notif}</div>
-          ))
-        ) : (
-          <p>No new notifications</p>
-        )}
-      </div>
+      <div>{time}</div>
     </div>
   );
 }
