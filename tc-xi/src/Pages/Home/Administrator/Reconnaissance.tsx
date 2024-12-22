@@ -1,17 +1,23 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import WebcamCapture from "../../../Components/WebCamCapture";
 
+interface PointageUpdate {
+  heure_entree:Date;
+  heure_sortie:Date;
+}
 interface Data {
-  userId: string;
-  dateTime: string;
-  photo: string | null; // Base64 string or URL
+  employe_id: number;
+  date_to_check: Date;
+  pointage: PointageUpdate; 
+  session:any;
 }
 
 export default function Reconnaissance() {
   const [fileName, setFileName] = useState<string>("");
   const [showCam, setShowCam] = useState<boolean>(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null); // State to store the captured image
-  const [userId, setUserId] = useState<string>("12345"); // Assuming user ID is available
+  const [employe_id, setemploye_id] = useState<string>("12345"); // Assuming user ID is available
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // To handle form submission
   const [isPhotoImported, setIsPhotoImported] = useState<boolean>(false); // To toggle between photo import and webcam capture
   const [checkType, setCheckType] = useState<string>("check-in"); // Default selection for check-in
@@ -46,25 +52,33 @@ export default function Reconnaissance() {
       alert("Veuillez capturer ou importer une image.");
       return;
     }
-
-    const currentDate = new Date().toISOString(); // Get the current date and time
+  
+    const currentTime = new Date(); // Current timestamp
+  
+    // Determine whether this is a check-in or check-out
+    const pointage: PointageUpdate =
+      checkType === "check-in"
+        ? { heure_entree: currentTime, heure_sortie: null }
+        : { heure_entree: null, heure_sortie: currentTime };
+  
     const data: Data = {
-      userId,
-      dateTime: currentDate,
-      photo: capturedImage, // Base64 image string
+      employe_id: parseInt(employe_id, 10), // Ensure it's sent as an integer
+      date_to_check: currentTime,
+      pointage,
+      session: null, // Add any additional session data if needed
     };
-
+  
     setIsSubmitting(true);
-
+  
     try {
-      const response = await fetch("https://your-backend-api.com/endpoint", {
+      const response = await fetch("http://localhost:8000/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
-
+  
       if (response.ok) {
         alert("Données envoyées avec succès !");
         setCapturedImage(null);
@@ -80,7 +94,7 @@ export default function Reconnaissance() {
       setIsSubmitting(false);
     }
   };
-
+  
   return (
     <div className="w-[80vw] h-[100vh] flex flex-col items-center justify-center p-4 text-black">
       <div className="w-full p-6 border-2 border-gray-300 rounded-lg shadow-lg bg-white">

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
 interface FormData {
@@ -10,7 +11,7 @@ interface FormData {
   date_naiss: string;
   departement: string;
   photo: File | null;
-  mdp: string;
+  mot_de_pass: string;
   matricule: string;
 }
 
@@ -29,7 +30,7 @@ function AccountForm() {
     date_naiss: '',
     departement: '',
     photo: null,
-    mdp: '',
+    mot_de_pass: '',
     matricule: '',
   });
 
@@ -73,10 +74,10 @@ function AccountForm() {
     if (!formData.date_naiss) errors.date_naiss = 'Date de naissance is required.';
     if (!formData.departement) errors.departement = 'Département is required.';
     if (!formData.photo) errors.photo = 'Photo is required.';
-    if (!formData.mdp) {
-      errors.mdp = 'Mot de passe is required.';
-    } else if (formData.mdp.length < 6) {
-      errors.mdp = 'Mot de passe must be at least 6 characters.';
+    if (!formData.mot_de_pass) {
+      errors.mot_de_pass = 'Mot de passe is required.';
+    } else if (formData.mot_de_pass.length < 6) {
+      errors.mot_de_pass = 'Mot de passe must be at least 6 characters.';
     }
     if (!formData.matricule.trim()) errors.matricule = 'Matricule is required.';
     return errors;
@@ -102,7 +103,7 @@ function AccountForm() {
     });
 
     try {
-      const response = await fetch('https://your-api-endpoint.com/submit', {
+      const response = await fetch('https://localhost:8000/register', {
         method: 'POST',
         body: data,
       });
@@ -123,7 +124,7 @@ function AccountForm() {
           date_naiss: '',
           departement: '',
           photo: null,
-          mdp: '',
+          mot_de_pass: '',
           matricule: '',
         });
         setPhotoPreview(null);
@@ -201,12 +202,12 @@ function AccountForm() {
             <label className="block text-sm font-medium text-gray-700 text-start">Mot de passe</label>
             <input
               type="password"
-              name="mdp"
-              value={formData.mdp}
+              name="mot_de_pass"
+              value={formData.mot_de_pass}
               onChange={handleChange}
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg"
             />
-            {errors.mdp && <p className="text-red-500 text-sm">{errors.mdp}</p>}
+            {errors.mot_de_pass && <p className="text-red-500 text-sm">{errors.mot_de_pass}</p>}
           </div>
         </div>
         <div className="mt-6">

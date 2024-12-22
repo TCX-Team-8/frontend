@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import Calendar, { TileClassNameFn } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';

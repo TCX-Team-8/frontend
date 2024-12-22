@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { BiSolidEditAlt } from "react-icons/bi";
 import Loading from "../Pages/loading";

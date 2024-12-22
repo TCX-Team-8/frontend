@@ -4,17 +4,17 @@ import login from "../../assets/login.svg";
 import { useNavigate } from "react-router-dom";  // Importing useNavigate for programmatic navigation
 
 interface SignInData {
-  identifier: string; // Either email or ID
-  password: string;
+  email: string; // Either email or ID
+  mot_de_passe: string;
 }
 
 export default function SignIn() {
   const [errors, setErrors] = useState<Partial<SignInData>>({});
   const [signInData, setSignInData] = useState<SignInData>({
-    identifier: "",
-    password: "",
+    email: "",
+    mot_de_passe: "",
   });
-  const [showPassword, setShowPassword] = useState(false);
+  const [showmot_de_passe, setShowmot_de_passe] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // To manage the loading state
   const navigate = useNavigate(); // Initialize navigate hook
   const [userType, setUserType] = useState("employee");
@@ -24,17 +24,17 @@ export default function SignIn() {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     const idRegex = /^\d{4}[A-Za-z0-9]{8}$/; // Regex for IDs starting with 4 digits (year) followed by 8 alphanumeric characters
 
-    if (!signInData.identifier.trim()) {
-      newErrors.identifier = "Email or ID is required";
+    if (!signInData.email.trim()) {
+      newErrors.email = "Email or ID is required";
     } else if (
-      !emailRegex.test(signInData.identifier) &&
-      !idRegex.test(signInData.identifier)
+      !emailRegex.test(signInData.email) &&
+      !idRegex.test(signInData.email)
     ) {
-      newErrors.identifier = "Invalid Email or ID format";
+      newErrors.email = "Invalid Email or ID format";
     }
 
-    if (!signInData.password.trim()) {
-      newErrors.password = "Password is required";
+    if (!signInData.mot_de_passe.trim()) {
+      newErrors.mot_de_passe = "mot_de_passe is required";
     }
 
     setErrors(newErrors);
@@ -48,11 +48,11 @@ export default function SignIn() {
       setIsLoading(true); // Start loading before fetching
 
       const formData = new FormData();
-      formData.append("identifier", signInData.identifier);
-      formData.append("password", signInData.password);
+      formData.append("email", signInData.email);
+      formData.append("mot_de_passe", signInData.mot_de_passe);
 
       try {
-        const response = await fetch("/api/signin", {
+        const response = await fetch("http://localhost:8000/login", {
           method: "POST",
           body: formData,
         });
@@ -73,15 +73,15 @@ export default function SignIn() {
         } else {
           // Handle error response (e.g., incorrect credentials)
           setErrors({
-            identifier: "Email or ID and password do not match",
-            password: "Email or ID and password do not match",
+            email: "Email or ID and mot_de_passe do not match",
+            mot_de_passe: "Email or ID and mot_de_passe do not match",
           });
         }
       } catch (error) {
         console.error("Error during sign-in:", error);
         setErrors({
-          identifier: "An error occurred. Please try again.",
-          password: "An error occurred. Please try again.",
+          email: "An error occurred. Please try again.",
+          mot_de_passe: "An error occurred. Please try again.",
         });
       } finally {
         setIsLoading(false); // Stop loading after the request
@@ -117,60 +117,60 @@ export default function SignIn() {
           <label className="w-full flex flex-col gap-2">
             <p className="text-gray-600 text-start">Email or ID</p>
             <input
-              id="identifier"
-              name="identifier"
+              id="email"
+              name="email"
               type="text"
-              value={signInData.identifier}
+              value={signInData.email}
               onChange={handleInputChange}
               placeholder="Email Address or ID"
               className={`border-2 rounded-md w-full pl-3 p-2 outline-none ${
-                errors.identifier
+                errors.email
                   ? "border-red-500"
                   : "border-gray-200 focus:border-gray-500"
               }`}
               required
             />
-            {errors.identifier && (
-              <p className="text-red-600 text-sm">{errors.identifier}</p>
+            {errors.email && (
+              <p className="text-red-600 text-sm">{errors.email}</p>
             )}
           </label>
           <label className="w-full flex flex-col gap-2">
-            <p className="text-gray-600 text-start">Password</p>
+            <p className="text-gray-600 text-start">mot_de_passe</p>
             <div
               className={`flex border-2 rounded-md w-full pl-3 p-2 ${
-                errors.password
+                errors.mot_de_passe
                   ? "border-red-500"
                   : "border-gray-200 focus:border-gray-500"
               }`}
             >
               <input
-                id="password"
-                name="password"
-                type={showPassword ? "text" : "password"}
-                value={signInData.password}
+                id="mot_de_passe"
+                name="mot_de_passe"
+                type={showmot_de_passe ? "text" : "mot_de_passe"}
+                value={signInData.mot_de_passe}
                 onChange={handleInputChange}
-                placeholder="Password"
+                placeholder="mot_de_passe"
                 className="peer h-full w-full pl-2 text-gray-900 focus:outline-none"
                 required
               />
               <button
                 type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
+                onClick={() => setShowmot_de_passe((prev) => !prev)}
                 className="text-gray-600 pr-3"
-                aria-label="Toggle password visibility"
+                aria-label="Toggle mot_de_passe visibility"
               >
-                {showPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}
+                {showmot_de_passe ? <IoEyeOutline /> : <IoEyeOffOutline />}
               </button>
             </div>
-            {errors.password && (
-              <p className="text-red-600 text-sm">{errors.password}</p>
+            {errors.mot_de_passe && (
+              <p className="text-red-600 text-sm">{errors.mot_de_passe}</p>
             )}
           </label>
           <a
-            href="/forget-password"
+            href="/forget-mot_de_passe"
             className="text-sm text-b border-gray-500 self-end"
           >
-            Forget Password?
+            Forget mot_de_passe?
           </a>
           <button
             type="submit"

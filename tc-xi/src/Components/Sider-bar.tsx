@@ -12,12 +12,17 @@ import { TbFaceId } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 
 export default function SideBar() {
-  //const path = window.location.pathname.toLowerCase();
-
-  const [userType, setType] = useState("admin"); // Default empty
+  const path = window.location.pathname.toLowerCase();
+  
+  const [userType, setType] = useState(""); // Default empty
   const [userSSn, setssn] = useState("123"); // Default empty
-
+  
   const [selected, setselected] = useState("Tableau de Bord");
+  useEffect(() => {
+    if (path.includes("/hr")) setType("hr");
+    else if (path.includes("/employee")) setType("employee");
+    else if (path.includes("/admin")) setType("admin");
+  }, [path]);
 
   // Services based on userType
   const Services_emp = [
@@ -154,7 +159,7 @@ export default function SideBar() {
         <div className="w-10 h-10 rounded-full pl-2"><h1 className="logo text-[3vw]">EMPire</h1></div>
         <div className="flex flex-col h-full w-full items-start justify-between">
           <ul className="w-full flex flex-col gap-5 py-4">
-            {userType.toLocaleLowerCase() === "hr" &&
+            {path.includes("hr") &&
               Services_rh.map((item, index) => (
                 <li
                   key={index}
@@ -164,7 +169,7 @@ export default function SideBar() {
                   <p className="text-base max-lg:hidden">{item.title}</p>
                 </li>
               ))}
-            {userType.toLocaleLowerCase() === "employee" &&
+            {path.includes("employee") &&
               Services_emp.map((item, index) => (
                 <li
                   key={index}
@@ -174,7 +179,7 @@ export default function SideBar() {
                   <p className="text-base max-lg:hidden">{item.title}</p>
                 </li>
               ))}
-            {userType.toLocaleLowerCase() === "admin" &&
+            {path.includes("admin") &&
               Services_admin.map((item, index) => (
                 <li
                   key={index}
@@ -194,15 +199,15 @@ export default function SideBar() {
 
       <div className="max-md:w-screen md:hidden h-20 fixed z-10 bottom-2 p-2 px-5 flex place-content-center place-items-center">
         <ul className="w-full h-full bg-PrimaryBlue rounded-2xl flex place-items-center place-content-around">
-          {userType.toLocaleLowerCase() === "hr" &&
+          {path.includes("hr") &&
             Services_rh.map((item, index) => (
               <div key={index} onClick={() => {setselected(item.title); navigate(`/${userType}/${userSSn}/${item.path}`)}}>{item.icon}</div>
             ))}
-          {userType.toLocaleLowerCase() === "employee" &&
+          {path.includes("employee") &&
             Services_emp.map((item, index) => (
               <div key={index} onClick={() => {setselected(item.title); navigate(`/${userType}/${userSSn}/${item.path}`)}}>{item.icon}</div>
             ))}
-          {userType.toLocaleLowerCase() === "admin" &&
+          {path.includes("admin") &&
             Services_admin.map((item, index) => (
               <div key={index} onClick={() => {setselected(item.title); navigate(`/${userType}/${userSSn}/${item.path}`)}}>{item.icon}</div>
             ))}

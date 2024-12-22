@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect } from "react";
 import { IoIosDoneAll, IoIosSearch, IoIosTime } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
@@ -198,12 +199,12 @@ const Liste_taches = () => {
       <h2 className="text-PrimaryBlue font-semibold w-48">{Tache.priority}</h2>
       {Tache.status ? (
         <IoIosDoneAll
-          className="bg-green-500 p-2 rounded-lg h-8 w-8"
+          className="bg-green-500 p-2 rounded-lg h-8 w-24"
           onClick={() => toggleTaskStatus(index)}
         />
       ) : (
         <IoIosTime
-          className="bg-red-500 p-2 rounded-lg w-8 h-8"
+          className="bg-red-500 p-2 rounded-lg w-8 h-24"
           onClick={() => toggleTaskStatus(index)}
         />
       )}

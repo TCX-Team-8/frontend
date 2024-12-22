@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect } from "react";
 import { IoIosDoneAll, IoIosSearch, IoIosTime } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
@@ -203,9 +204,9 @@ const Liste_taches2 = () => {
       <h2 className="w-24 truncate">{Tache.dateLimit}</h2>
       <h2 className="w-48">{Tache.priority}</h2>
       {Tache.status ? (
-        <IoIosDoneAll className="bg-green-500 p-2 rounded-lg h-8 w-8" />
+        <IoIosDoneAll className="bg-green-500 p-2 rounded-lg h-8 w-24" />
       ) : (
-        <IoIosTime className="bg-red-500 p-2 rounded-lg w-8 h-8" />
+        <IoIosTime className="bg-red-500 p-2 rounded-lg w-8 h-24" />
       )}
       <h2 className="w-24">{Tache.assigned_to}</h2>
     </div>

@@ -29,7 +29,7 @@ export default function Retard_bar() {
     const fetchData = async () => {
       try {
         // Replace the URL with your actual API endpoint
-        const response = await fetch("https://api.example.com/retardData");
+        const response = await fetch("http://");
 
         if (!response.ok) {
           throw new Error("Network response was not ok");

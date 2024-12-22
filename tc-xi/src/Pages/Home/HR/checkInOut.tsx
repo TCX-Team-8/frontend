@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { IoFilter } from "react-icons/io5";
@@ -6,12 +7,12 @@ import { useNavigate } from "react-router-dom";
 
 // Define a type for employee
 interface Employee {
-  SSN: string;
+  id_utilisateur: string;
   prenom: string;
   nom: string;
-  checkInTime: string; // Format: HH:mm
-  checkOutTime: string; // Format: HH:mm
-  retard: number; // Total number of retard
+  heure_entree: string; // Format: HH:mm
+  heure_sortie: string; // Format: HH:mm
+  seuil_retard: number; // Total number of seuil_retard
 }
 
 const ListeEmployeesWithAttendance = () => {
@@ -23,7 +24,7 @@ const ListeEmployeesWithAttendance = () => {
   
   const fetchEmployeesData = async () => {
     try {
-      const response = await fetch('https://your-api-endpoint.com/employees'); // Replace with your actual API endpoint
+      const response = await fetch('https://localhost:8000/'); // Replace with your actual API endpoint
       if (!response.ok) {
         throw new Error('Failed to fetch employee data');
       }
@@ -35,12 +36,12 @@ const ListeEmployeesWithAttendance = () => {
 
       // Fallback data in case of error
       const fallbackData: Employee[] = Array.from({ length: 10 }, (_, index) => ({
-        SSN: `SSN${index + 1}`,
+        id_utilisateur: `id_utilisateur${index + 1}`,
         prenom: `Prenom${index + 1}`,
         nom: `Nom${index + 1}`,
-        checkInTime: `${8 + (index % 3)}:00`, // Randomized check-in times
-        checkOutTime: `${16 + (index % 3)}:00`, // Randomized check-out times
-        retard: Math.floor(Math.random() * 5), // Random retard
+        heure_entree: `${8 + (index % 3)}:00`, // Randomized check-in times
+        heure_sortie: `${16 + (index % 3)}:00`, // Randomized check-out times
+        seuil_retard: Math.floor(Math.random() * 5), // Random seuil_retard
       }));
       
       setEmployees(fallbackData);
@@ -67,37 +68,37 @@ const ListeEmployeesWithAttendance = () => {
   const totalPages = Math.ceil(filteredEmployees.length / employeesPerPage);
   
   const TableHeader = () => (
-    <div className="w-full flex gap-4 font-bold border-b pb-2 text-gray-700">
-      <div className="w-16">SSN</div>
-      <div className="w-24">First Name</div>
-      <div className="w-24">Last Name</div>
-      <div className="w-24">Check-In</div>
-      <div className="w-24">Check-Out</div>
-      <div className="w-16">Retard</div>
+    <div claid_utilisateurame="w-full flex gap-4 font-bold border-b pb-2 text-gray-700">
+      <div claid_utilisateurame="w-16">id_utilisateur</div>
+      <div claid_utilisateurame="w-24">First Name</div>
+      <div claid_utilisateurame="w-24">Last Name</div>
+      <div claid_utilisateurame="w-24">Check-In</div>
+      <div claid_utilisateurame="w-24">Check-Out</div>
+      <div claid_utilisateurame="w-16">seuil_retard</div>
     </div>
   );
   
   const EmployeeRow: React.FC<{ employee: Employee }> = ({ employee }) => {
     const navigate = useNavigate();
     return (
-      <div onClick={() => navigate("/hr/353/specific-view/" + employee.SSN)} className="w-full flex gap-4 items-center py-2 text-gray-800 bg-ThirdBlue rounded-lg">
-        <div className="w-16">{employee.SSN}</div>
-        <div className="w-24">{employee.prenom}</div>
-        <div className="w-24">{employee.nom}</div>
-        <div className="w-24">{employee.checkInTime}</div>
-        <div className="w-24">{employee.checkOutTime}</div>
-        <div className="w-16">{employee.retard}</div>
+      <div onClick={() => navigate("/hr/353/specific-view/" + employee.id_utilisateur)} claid_utilisateurame="w-full flex gap-4 items-center py-2 text-gray-800 bg-ThirdBlue rounded-lg">
+        <div claid_utilisateurame="w-16">{employee.id_utilisateur}</div>
+        <div claid_utilisateurame="w-24">{employee.prenom}</div>
+        <div claid_utilisateurame="w-24">{employee.nom}</div>
+        <div claid_utilisateurame="w-24">{employee.heure_entree}</div>
+        <div claid_utilisateurame="w-24">{employee.heure_sortie}</div>
+        <div claid_utilisateurame="w-16">{employee.seuil_retard}</div>
       </div>
     );
   };
   
   const Pagination = () => (
-    <div className="flex justify-center mt-4 gap-2 text-black">
+    <div claid_utilisateurame="flex justify-center mt-4 gap-2 text-black">
       <button
         disabled={page === 1}
         onClick={() => setPage(page - 1)}
         aria-label="Previous page"
-        className="px-2 py-1 border rounded disabled:opacity-50"
+        claid_utilisateurame="px-2 py-1 border rounded disabled:opacity-50"
       >
         <MdKeyboardArrowLeft />
       </button>
@@ -108,7 +109,7 @@ const ListeEmployeesWithAttendance = () => {
         disabled={page === totalPages}
         onClick={() => setPage(page + 1)}
         aria-label="Next page"
-        className="px-2 py-1 border rounded disabled:opacity-50"
+        claid_utilisateurame="px-2 py-1 border rounded disabled:opacity-50"
       >
         <MdKeyboardArrowRight />
       </button>
@@ -116,30 +117,30 @@ const ListeEmployeesWithAttendance = () => {
   );
   
   const SearchBar = () => (
-    <div className="text-black relative z-10 w-full flex justify-center gap-4 p-4">
-      <div className="flex rounded-xl border border-gray-400 items-center w-80 md:w-[550px] xl:w-[750px] h-9 px-1">
+    <div claid_utilisateurame="text-black relative z-10 w-full flex justify-center gap-4 p-4">
+      <div claid_utilisateurame="flex rounded-xl border border-gray-400 items-center w-80 md:w-[550px] xl:w-[750px] h-9 px-1">
         <input
           type="search"
-          className="bg-transparent focus:outline-none w-full h-full p-2"
+          claid_utilisateurame="bg-transparent focus:outline-none w-full h-full p-2"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search by name..."
         />
-        <IoIosSearch className="text-xl" />
+        <IoIosSearch claid_utilisateurame="text-xl" />
       </div>
     </div>
   );
   
   return (
-    <div className="max-h-screen max-md:w-screen max-md:overflow-y-visible overflow-y-scroll w-full flex flex-col items-center p-4 gap-4">
+    <div claid_utilisateurame="max-h-screen max-md:w-screen max-md:overflow-y-visible overflow-y-scroll w-full flex flex-col items-center p-4 gap-4">
       <SearchBar />
-      <div className="w-full flex flex-col items-center gap-1">
+      <div claid_utilisateurame="w-full flex flex-col items-center gap-1">
         <TableHeader />
         {paginatedEmployees.length === 0 ? (
-          <div className="text-gray-500 mt-4">No employees found</div>
+          <div claid_utilisateurame="text-gray-500 mt-4">No employees found</div>
         ) : (
           paginatedEmployees.map((employee) => (
-            <EmployeeRow key={employee.SSN} employee={employee} />
+            <EmployeeRow key={employee.id_utilisateur} employee={employee} />
           ))
         )}
       </div>

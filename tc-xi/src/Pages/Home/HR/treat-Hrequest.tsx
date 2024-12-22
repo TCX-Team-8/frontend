@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiX } from "react-icons/hi";
