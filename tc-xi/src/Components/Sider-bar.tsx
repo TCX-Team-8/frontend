@@ -9,123 +9,121 @@ import {
 } from "react-icons/md";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { TbFaceId } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 export default function SideBar() {
   const path = window.location.pathname.toLowerCase();
   //const special_path = ["/rh"];
   //const isSpecial = special_path.includes(path);
   const [userType, setType] = useState("hr");
+  const [userSSn, setssn] = useState("123");
   const [selected, setselected] = useState("Tableau de Bord");
   const Services_emp = [
     {
       title: "Notification",
+      path: "/notification",
       icon: (
         <MdOutlineNotifications className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
     {
       title: "Taches",
+      path: "/taches",
       icon: (
         <IoDocumentText className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
     {
       title: "Tableau de Bord",
+      path: "/dashboard",
       icon: (
         <IoStatsChart className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
     {
-      title: "Demande de conge",
-      icon: (
-        <MdFormatAlignLeft className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
-      ),
-    },
-    {
       title: "Information personnel",
+      path: "/change-info",
       icon: (
         <MdOutlinePrivacyTip className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
   ];
-
+  
   const Services_rh = [
     {
       title: "Notification",
+      path: "notification",
       icon: (
         <MdOutlineNotifications className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
     {
       title: "Liste d'employees",
+      path: "employee",
       icon: (
         <FaPeopleGroup className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
     {
       title: "Check In/Out",
+      path: "Check-in-out",
       icon: (
         <TbFaceId className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
     {
       title: "Taches",
+      path: "taches",
       icon: (
         <IoDocumentText className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
     {
       title: "Tableau de Bord",
+      path: "global-view",
       icon: (
         <IoStatsChart className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
     {
       title: "Demande de conge",
+      path: "treat-conges",
       icon: (
         <MdFormatAlignLeft className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
-    {
-      title: "Information personnel",
-      icon: (
-        <MdOutlinePrivacyTip className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
-      ),
-    },
   ];
-
+  
   const Services_admin = [
-    {
-      title: "Notification",
-      icon: (
-        <MdOutlineNotifications className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
-      ),
-    },
-
+   
     {
       title: "Check In/Out",
+      path: "Check-in-out",
       icon: (
         <TbFaceId className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
     {
       title: "Add employee",
+      path: "create-account",
       icon: (
         <IoPersonAdd className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
     },
   ];
+  
+  const navigate = useNavigate();
   return (
     <>
-      <div className="max-md:hidden  h-screen w-[270px] max-lg:w-36 bg-PrimaryBlue flex flex-col gap-8  max-md:place-items-center place-items-start pt-4">
-       <div className="w-10 h-10 bg-ThirdBlue rounded-full ml-5"></div>
-        <div className="flex flex-col h-full w-full justify-between">
+      <div className="max-md:hidden  h-full w-[270px] max-lg:w-36 bg-PrimaryBlue flex flex-col gap-8  max-md:place-items-center place-items-start pt-4">
+      <div className="w-10 h-10 bg-ThirdBlue rounded-full ml-5">logoooo</div>
+        <div className="flex flex-col h-full w-full items-start justify-between">
           <ul className="w-full flex flex-col gap-5 py-4">
             {userType.toLocaleLowerCase() == "hr" &&
               Services_rh.map((item, index) => (
                 <li
                   key={index}
-                  onClick={() => setselected(item.title)}
+                  onClick={() => {setselected(item.title)  ;navigate("/"+userType+"/"+userSSn+"/"+item.path)}}
                   className={`cursor-pointer md:px-2 flex py-2 w-full transition-all ${
                     selected.toLocaleLowerCase() ==
                     item.title.toLocaleLowerCase()
@@ -141,7 +139,7 @@ export default function SideBar() {
               Services_emp.map((item, index) => (
                 <li
                   key={index}
-                  onClick={() => setselected(item.title)}
+                  onClick={() => {setselected(item.title)  ;navigate(item.path)}}
                   className={`cursor-pointer md:px-2 flex py-2 w-full transition-all ${
                     selected.toLocaleLowerCase() ==
                     item.title.toLocaleLowerCase()
@@ -157,7 +155,7 @@ export default function SideBar() {
               Services_admin.map((item, index) => (
                 <li
                   key={index}
-                  onClick={() => setselected(item.title)}
+                  onClick={() => {setselected(item.title)  ;navigate(item.path)}}
                   className={`cursor-pointer md:px-2 flex py-2 w-full transition-all ${
                     selected.toLocaleLowerCase() ==
                     item.title.toLocaleLowerCase()
@@ -181,15 +179,15 @@ export default function SideBar() {
         <ul className="w-full h-full bg-PrimaryBlue rounded-2xl flex place-items-center place-content-around">
           {userType.toLocaleLowerCase() == "hr" &&
             Services_rh.map((item, index) => (
-              <div key={index}>{item.icon}</div>
+              <div onClick={() => {setselected(item.title)  ;navigate(item.path)}} key={index}>{item.icon}</div>
             ))}
           {userType.toLocaleLowerCase() == "employee" &&
             Services_emp.map((item, index) => (
-              <div key={index}>{item.icon}</div>
+              <div onClick={() => {setselected(item.title)  ;navigate(item.path)}} key={index}>{item.icon}</div>
             ))}
           {userType.toLocaleLowerCase() == "admin" &&
             Services_admin.map((item, index) => (
-              <div key={index}>{item.icon}</div>
+              <div onClick={() => {setselected(item.title)  ;navigate(item.path)}} key={index}>{item.icon}</div>
             ))}
         </ul>
       </div>

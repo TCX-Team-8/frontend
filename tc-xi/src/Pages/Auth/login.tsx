@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import login from "../../assets/login.svg";
+import { redirect } from "react-router-dom";
 
 interface SignInData {
   identifier: string; // Either email or ID
@@ -14,6 +15,7 @@ export default function SignIn() {
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const usertype = "hr";
 
   const validateInputs = () => {
     const newErrors: Partial<SignInData> = {};
@@ -58,7 +60,7 @@ export default function SignIn() {
           password: "Email or ID and password do not match",
         });
       }
-    }
+      }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

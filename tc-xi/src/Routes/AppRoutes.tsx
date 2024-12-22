@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Loading from "../Pages/loading";
 import NotFound from "../Pages/not-found";
 import Admin_layout from "../Layouts/Home";
@@ -21,34 +21,45 @@ import Specific_Dashboard from "../Pages/Home/HR/specific-view";
 import VacationRequestManager from "../Pages/Home/HR/treat-Hrequest";
 
 export default function AppRoutes() {
+    const userType = "hr"; 
+    const defaultRoutes = {
+        hr: "/hr/:ssn/global-view",
+        employee: "/employee/:ssn/dashboard",
+        admin: "/admin/:ssn/recognition",
+      };
   return (
     <Router>
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Admin_layout />}></Route>
-          <Route path="/employee" element={<HomeLayout />}>
+          <Route path="/" element={<Navigate to={defaultRoutes[userType] || "/login"} replace />} />
+          <Route path="/employee/:ssn" element={<HomeLayout />}>
+            <Route path="notification" element={<Notification/>}/>
             <Route path="taches" element={<Liste_taches />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="change-info" element={<ChangePersonalInfo/>}/>
           </Route>
 
-          <Route path="/hr" element={<HomeLayout />}>
+          <Route path="/hr/:ssn" element={<HomeLayout />}>
+            <Route path="notification" element={<Notification/>}/>
             <Route path="taches" element={<Liste_taches2 />} />
             <Route path="employee" element={<ListeEmployees2/>}/>
             <Route path="Check-in-out" element={<ListeEmployeesWithAttendance/>}/>
-            <Route path="global-view" element={<Global_Dashboard/>}/>
-            <Route path="specific-view" element={<Specific_Dashboard/>}/>
+            <Route path="global-view" element={<Global_Dashboard/>} />
+            <Route path="specific-view/:ssn" element={<Specific_Dashboard/>}/>
             <Route path="treat-conges" element={<VacationRequestManager />}/>
           </Route>
 
-          <Route path="/admin" element={<HomeLayout />}>
+         
+
+          <Route path="/admin/:ssn" element={<HomeLayout />}>
+          
            <Route path="create-account" element={<AccountForm/>}/>
            <Route path="recognition" element={<Reconnaissance/>}/>
           </Route>
           <Route path="" element={<HomeLayout/>}>
-           <Route path="/notification" element={<Notification/>}/>
-          <Route path="/profile" element={<Profile/>} />
+          <Route path="/profile/:id" element={<Profile/>} />
           </Route>
           <Route path="/login" element={<SignIn />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
