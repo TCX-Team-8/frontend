@@ -75,16 +75,46 @@ function AccountForm() {
     return errors;
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const formErrors = validate();
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else {
       setErrors({});
-      console.log(formData); // Here you can send the form data to the backend
+      
+      // Prepare form data for sending
+      const data = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === "photo" && value instanceof File) {
+          data.append(key, value); // Append the file
+        } else {
+          data.append(key, value.toString()); // Append other fields as strings
+        }
+      });
+  
+      try {
+        const response = await fetch('https://your-api-endpoint.com/submit', {
+          method: 'POST',
+          body: data,
+        });
+  
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('Submission failed:', errorData);
+          alert('Failed to create the account. Please try again.');
+        } else {
+          const result = await response.json();
+          console.log('Submission successful:', result);
+          alert('Account created successfully!');
+        }
+      } catch (error) {
+        console.error('An error occurred:', error);
+        alert('An error occurred while submitting the form.');
+      }
     }
   };
+  
 
   return (
     <div className="w-[60vw] mx-auto p-4 bg-white shadow-md rounded-lg text-black">

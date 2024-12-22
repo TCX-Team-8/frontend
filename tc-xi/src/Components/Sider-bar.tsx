@@ -15,7 +15,7 @@ export default function SideBar() {
   const path = window.location.pathname.toLowerCase();
   //const special_path = ["/rh"];
   //const isSpecial = special_path.includes(path);
-  const [userType, setType] = useState("hr");
+  const [userType, setType] = useState("employee");
   const [userSSn, setssn] = useState("123");
   const [selected, setselected] = useState("Tableau de Bord");
   const Services_emp = [
