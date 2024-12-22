@@ -15,7 +15,7 @@ export default function SideBar() {
   const path = window.location.pathname.toLowerCase();
   //const special_path = ["/rh"];
   //const isSpecial = special_path.includes(path);
-  const [userType, setType] = useState("employee");
+  const [userType, setType] = useState("hr");
   const [userSSn, setssn] = useState("123");
   const [selected, setselected] = useState("Tableau de Bord");
   const Services_emp = [
@@ -35,7 +35,7 @@ export default function SideBar() {
     },
     {
       title: "Tableau de Bord",
-      path: "dashboard",
+      path: "",
       icon: (
         <IoStatsChart className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
@@ -80,7 +80,7 @@ export default function SideBar() {
     },
     {
       title: "Tableau de Bord",
-      path: "global-view",
+      path: "",
       icon: (
         <IoStatsChart className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),
@@ -105,7 +105,7 @@ export default function SideBar() {
    
     {
       title: "Check In/Out",
-      path: "recognition",
+      path: "",
       icon: (
         <TbFaceId className="w-8 h-8 xl:w-6 max-lg:w-20 font-bold text-white" />
       ),

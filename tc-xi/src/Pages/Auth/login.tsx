@@ -72,7 +72,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className="text-black w-full h-screen flex place-content-between place-items-center items-center p-4 gap-3">
+    <div className="text-black w-screen h-screen flex place-content-center place-items-center items-center p-4 gap-36">
       <div className="hidden md:block md:w-1/2">
         <img src={login} alt="login illustration" className="w-full" />
       </div>

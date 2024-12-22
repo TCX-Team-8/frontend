@@ -8,8 +8,8 @@ import ForgetPassword from "../Pages/Auth/ForgetPassword";
 import Profile from "../Pages/profile";
 import Notification from "../Pages/notification";
 import ChangePersonalInfo from "../Components/ChangePersonalInfo";
-import AccountForm from "../Components/CreateAccount";
-import Reconnaissance from "../Components/Reconnaissance";
+import AccountForm from "../Pages/Home/Administrator/CreateAccount";
+import Reconnaissance from "../Pages/Home/Administrator/Reconnaissance";
 import Liste_taches from "../Pages/Home/Employee/taches";
 import Dashboard from "../Pages/Home/Employee/dashboard";
 import Liste_taches2 from "../Pages/Home/HR/taches";
@@ -29,7 +29,7 @@ export default function AppRoutes() {
           <Route path="*" element={<NotFound />} />
 
           {/* Auth routes */}
-          <Route path="/login" element={<SignIn />} />
+          <Route index element={<SignIn />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
 
           {/* Protected Routes */}
@@ -38,7 +38,7 @@ export default function AppRoutes() {
             <Route path="/employee/:ssn" element={<HomeLayout />}>
               <Route path="notification" element={<Notification />} />
               <Route path="taches" element={<Liste_taches />} />
-              <Route index path="dashboard" element={<Dashboard />} />
+              <Route index  element={<Dashboard />} />
               <Route path="change-info" element={<ChangePersonalInfo />} />
               <Route path="profile" element={<Profile />} />
             </Route>
@@ -49,7 +49,7 @@ export default function AppRoutes() {
               <Route path="taches" element={<Liste_taches2 />} />
               <Route path="employee" element={<ListeEmployees2 />} />
               <Route path="Check-in-out" element={<ListeEmployeesWithAttendance />} />
-              <Route index path="global-view" element={<Global_Dashboard />} />
+              <Route index  element={<Global_Dashboard />} />
               <Route path="specific-view/:ssn" element={<Specific_Dashboard />} />
               <Route path="treat-conges" element={<VacationRequestManager />} />
               <Route path="change-info" element={<ChangePersonalInfo />} />
@@ -59,7 +59,7 @@ export default function AppRoutes() {
             {/* Admin routes */}
             <Route path="/admin/:ssn" element={<HomeLayout />}>
               <Route path="create-account" element={<AccountForm />} />
-              <Route index path="recognition" element={<Reconnaissance />} />
+              <Route index  element={<Reconnaissance />} />
               <Route path="profile" element={<Profile />} />
             </Route>
 

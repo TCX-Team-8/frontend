@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import WebcamCapture from './WebCamCapture';
+import WebcamCapture from '../../../Components/WebCamCapture';
 
 interface Data {
   userId: string;
